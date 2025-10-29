@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11º Encuentro Poetas del Cupatitzio - Antología 2025</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="/img/PoetasCupa.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Added hero section with logo and event information -->
+    <section class="hero">
+      <div class="hero-content">
+        <img
+          src="img/PoetasCupa.png"
+          alt="Logo Poetas del Cupatitzio"
+          class="hero-logo"
+        />
+        <h1 class="hero-title">11º Encuentro Poetas del Cupatitzio</h1>
+        <p class="hero-quote">
+          "La poesía es el eco de la melodía del universo en el corazón de los
+          humanos"
+        </p>
+        <div class="event-info">
+          <div class="event-dates">
+            <h2>Fechas del Encuentro</h2>
+            <p class="dates">27, 28 y 29 de Noviembre 2025</p>
+          </div>
+          <div class="event-announcement">
+            <p>Próximamente se revelarán las listas de mesas de lectura</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <header class="header">
+      <div class="header-content">
+        <!-- Updated title to focus on anthology -->
+        <h2 class="title">Antología 2025</h2>
+        <p class="subtitle">Voces que transforman el silencio en arte</p>
+        <p class="poet-count"><span id="count">123</span> Poetas Incluidos</p>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="search-container">
+        <div class="search-wrapper">
+          <svg
+            class="search-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4.35-4.35"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar poeta por nombre..."
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <div id="poetsGrid" class="poets-grid"></div>
+
+      <div id="noResults" class="no-results" style="display: none">
+        <p>No se encontraron poetas con ese nombre</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <!-- Enhanced footer with poetic quote -->
+      <p class="footer-quote">"Donde hay poesía, hay esperanza"</p>
+      <p>© 2025 Encuentro Poetas del Cupatitzio</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
