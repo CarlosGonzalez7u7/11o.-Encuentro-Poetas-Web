@@ -1253,13 +1253,13 @@ async function generateProgramPDF() {
             },
             {
               time: "18:15",
-              title: "In Memoriam: Sandra Morales Vazquez",
+              title: "In Memoriam: Sandra Morales Vázquez",
               desc: "Lectura de poemas por Laura Ramos",
               type: "memoriam",
             },
             {
               time: "18:30",
-              title: "In Memoriam: Raul Rios Romero",
+              title: "In Memoriam: Raúl Ríos Romero",
               desc: "Lectura de poemas por Jesus Garcia",
               type: "memoriam",
             },
@@ -1345,7 +1345,7 @@ async function generateProgramPDF() {
             },
             {
               time: "13:45",
-              title: "Cierre Sesión Matutina - Receso para Comida",
+              title: "Cierre Sesión Matutina - Receso",
               desc: "",
               type: "receso",
             },
@@ -1499,7 +1499,7 @@ async function generateProgramPDF() {
             },
             {
               time: "14:15",
-              title: "Receso para Comida",
+              title: "Receso",
               desc: "",
               type: "receso",
             },
