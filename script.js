@@ -978,11 +978,17 @@ async function generateProgramPDF() {
     doc.setTextColor(...primary);
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
-    doc.text(dayNum.toString(), margin + 12, currentY + 10, { align: "center" });
+    doc.text(dayNum.toString(), margin + 12, currentY + 10, {
+      align: "center",
+    });
     doc.setTextColor(...white);
     doc.setFontSize(13);
     doc.setFont("helvetica", "bold");
-    doc.text(dayName + " " + dayNum + " de Febrero, 2026", margin + 26, currentY + 10);
+    doc.text(
+      dayName + " " + dayNum + " de Febrero, 2026",
+      margin + 26,
+      currentY + 10,
+    );
     currentY += 20;
   }
 
@@ -995,7 +1001,9 @@ async function generateProgramPDF() {
     doc.text("[SEDE] " + venue, margin + 4, currentY + 6);
     if (session) {
       doc.setFont("helvetica", "italic");
-      doc.text(session, pageWidth - margin - 4, currentY + 6, { align: "right" });
+      doc.text(session, pageWidth - margin - 4, currentY + 6, {
+        align: "right",
+      });
     }
     currentY += 13;
   }
@@ -1023,20 +1031,33 @@ async function generateProgramPDF() {
     switch (type) {
       case "inauguracion":
       case "clausura":
-        bgColor = [255, 250, 235]; leftColor = accent; break;
+        bgColor = [255, 250, 235];
+        leftColor = accent;
+        break;
       case "memoriam":
-        bgColor = [248, 245, 255]; leftColor = purple; break;
+        bgColor = [248, 245, 255];
+        leftColor = purple;
+        break;
       case "conferencia":
-        bgColor = [240, 248, 255]; leftColor = blue; break;
+        bgColor = [240, 248, 255];
+        leftColor = blue;
+        break;
       case "musica":
       case "danza":
-        bgColor = [255, 245, 250]; leftColor = pink; break;
+        bgColor = [255, 245, 250];
+        leftColor = pink;
+        break;
       case "presentacion":
-        bgColor = [240, 255, 248]; leftColor = green; break;
+        bgColor = [240, 255, 248];
+        leftColor = green;
+        break;
       case "receso":
-        bgColor = [248, 248, 248]; leftColor = gray; break;
+        bgColor = [248, 248, 248];
+        leftColor = gray;
+        break;
       default:
-        bgColor = [255, 255, 255]; leftColor = accent;
+        bgColor = [255, 255, 255];
+        leftColor = accent;
     }
 
     doc.setFillColor(...bgColor);
@@ -1072,14 +1093,54 @@ async function generateProgramPDF() {
           venue: "GRAN NAVE (Sala de Exposiciones) - Planta Principal",
           sessionLabel: "Sesion Vespertina",
           events: [
-            { time: "16:30", title: "Recepcion y Registro de Participantes", desc: "Entrega de antologias 2025-2026", type: "registro" },
-            { time: "17:00", title: "Inauguracion Oficial", desc: "Ceremonia de apertura del 11o Encuentro", type: "inauguracion" },
-            { time: "17:15", title: "Presentacion Musical", desc: "", type: "musica" },
-            { time: "17:45", title: "Mesa de Lectura 01", desc: "", type: "lectura" },
-            { time: "18:15", title: "In Memoriam: Sandra Morales Vazquez", desc: "Lectura de poemas por Laura Ramos", type: "memoriam" },
-            { time: "18:30", title: "In Memoriam: Raul Rios Romero", desc: "Lectura de poemas por Jesus Garcia", type: "memoriam" },
-            { time: "18:45", title: "Mesa de Lectura 02", desc: "", type: "lectura" },
-            { time: "19:15", title: "Cierre de la Jornada Vespertina", desc: "", type: "cierre" },
+            {
+              time: "16:30",
+              title: "Recepcion y Registro de Participantes",
+              desc: "Entrega de antologias 2025-2026",
+              type: "registro",
+            },
+            {
+              time: "17:00",
+              title: "Inauguracion Oficial",
+              desc: "Ceremonia de apertura del 11o Encuentro",
+              type: "inauguracion",
+            },
+            {
+              time: "17:15",
+              title: "Presentacion Musical",
+              desc: "",
+              type: "musica",
+            },
+            {
+              time: "17:45",
+              title: "Mesa de Lectura 01",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "18:15",
+              title: "In Memoriam: Sandra Morales Vazquez",
+              desc: "Lectura de poemas por Laura Ramos",
+              type: "memoriam",
+            },
+            {
+              time: "18:30",
+              title: "In Memoriam: Raul Rios Romero",
+              desc: "Lectura de poemas por Jesus Garcia",
+              type: "memoriam",
+            },
+            {
+              time: "18:45",
+              title: "Mesa de Lectura 02",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "19:15",
+              title: "Cierre de la Jornada Vespertina",
+              desc: "",
+              type: "cierre",
+            },
           ],
         },
       ],
@@ -1093,17 +1154,67 @@ async function generateProgramPDF() {
           venue: "CRUJIA 6 - Area Posterior",
           sessionLabel: "Sesion Matutina",
           events: [
-            { time: "10:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
-            { time: "10:30", title: "Apertura de Programa", desc: "", type: "apertura" },
-            { time: "10:35", title: "Presentacion de Antologia Poetica", desc: "Universidad Don Vasco - Francisco Javier Ramos Ruiz", type: "presentacion" },
-            { time: "10:55", title: "Mesa de Lectura 03", desc: "", type: "lectura" },
-            { time: "11:25", title: "Mesa de Lectura 04", desc: "", type: "lectura" },
+            {
+              time: "10:00",
+              title: "Recepcion y Registro de Participantes",
+              desc: "",
+              type: "registro",
+            },
+            {
+              time: "10:30",
+              title: "Apertura de Programa",
+              desc: "",
+              type: "apertura",
+            },
+            {
+              time: "10:35",
+              title: "Presentacion de Antologia Poetica",
+              desc: "Universidad Don Vasco - Francisco Javier Ramos Ruiz",
+              type: "presentacion",
+            },
+            {
+              time: "10:55",
+              title: "Mesa de Lectura 03",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "11:25",
+              title: "Mesa de Lectura 04",
+              desc: "",
+              type: "lectura",
+            },
             { time: "11:55", title: "RECESO", desc: "", type: "receso" },
-            { time: "12:10", title: "In Memoriam: Francisco Javier Licea Linares", desc: "", type: "memoriam" },
-            { time: "12:25", title: "Mesa de Lectura 05", desc: "", type: "lectura" },
-            { time: "12:55", title: "In Memoriam: Jose Luis Calderon Vela", desc: "Red de Tertulias Guanajuato - Josue Fernando Morales", type: "memoriam" },
-            { time: "13:15", title: "Mesa de Lectura 06", desc: "", type: "lectura" },
-            { time: "13:45", title: "Cierre Sesion Matutina - Receso para Comida", desc: "", type: "receso" },
+            {
+              time: "12:10",
+              title: "In Memoriam: Francisco Javier Licea Linares",
+              desc: "",
+              type: "memoriam",
+            },
+            {
+              time: "12:25",
+              title: "Mesa de Lectura 05",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "12:55",
+              title: "In Memoriam: Jose Luis Calderon Vela",
+              desc: "Red de Tertulias Guanajuato - Josue Fernando Morales",
+              type: "memoriam",
+            },
+            {
+              time: "13:15",
+              title: "Mesa de Lectura 06",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "13:45",
+              title: "Cierre Sesion Matutina - Receso para Comida",
+              desc: "",
+              type: "receso",
+            },
           ],
         },
         {
@@ -1111,23 +1222,73 @@ async function generateProgramPDF() {
           sessionLabel: "Sesion Vespertina",
           divider: "SESION VESPERTINA",
           events: [
-            { time: "16:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
+            {
+              time: "16:00",
+              title: "Recepcion y Registro de Participantes",
+              desc: "",
+              type: "registro",
+            },
             { time: "16:15", title: "Bienvenida", desc: "", type: "apertura" },
-            { time: "16:20", title: "Mesa de Lectura 07", desc: "", type: "lectura" },
-            { time: "16:50", title: "Mesa de Lectura 08", desc: "", type: "lectura" },
-            { time: "17:20", title: "In Memoriam: Guadalupe Trigueros", desc: "Por Yuritskiri Campos Anguiano", type: "memoriam" },
-            { time: "17:50", title: "Mesa de Lectura 09", desc: "", type: "lectura" },
-            { time: "18:20", title: "In Memoriam: Gracia Mendoza Bolio", desc: "Por Dra. Maria Concepcion Ramirez Samano", type: "memoriam" },
-            { time: "18:40", title: "Traslado de Participantes a la Gran Nave", desc: "", type: "traslado" },
+            {
+              time: "16:20",
+              title: "Mesa de Lectura 07",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "16:50",
+              title: "Mesa de Lectura 08",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "17:20",
+              title: "In Memoriam: Guadalupe Trigueros",
+              desc: "Por Yuritskiri Campos Anguiano",
+              type: "memoriam",
+            },
+            {
+              time: "17:50",
+              title: "Mesa de Lectura 09",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "18:20",
+              title: "In Memoriam: Gracia Mendoza Bolio",
+              desc: "Por Dra. Maria Concepcion Ramirez Samano",
+              type: "memoriam",
+            },
+            {
+              time: "18:40",
+              title: "Traslado de Participantes a la Gran Nave",
+              desc: "",
+              type: "traslado",
+            },
           ],
         },
         {
           venue: "GRAN NAVE (Sala de Exposiciones)",
           sessionLabel: "",
           events: [
-            { time: "18:40", title: "Presentacion Musical", desc: "", type: "musica" },
-            { time: "19:00", title: "Conferencia Magistral", desc: "Michel Foucault y la Literatura Moderna - Dra. Rosario Herrera Guido", type: "conferencia" },
-            { time: "19:50", title: "Cierre de la Jornada", desc: "", type: "cierre" },
+            {
+              time: "18:40",
+              title: "Presentacion Musical",
+              desc: "",
+              type: "musica",
+            },
+            {
+              time: "19:00",
+              title: "Conferencia Magistral",
+              desc: "Michel Foucault y la Literatura Moderna - Dra. Rosario Herrera Guido",
+              type: "conferencia",
+            },
+            {
+              time: "19:50",
+              title: "Cierre de la Jornada",
+              desc: "",
+              type: "cierre",
+            },
           ],
         },
       ],
@@ -1141,18 +1302,73 @@ async function generateProgramPDF() {
           venue: "CRUJIA 6 - Area Posterior",
           sessionLabel: "Sesion Matutina",
           events: [
-            { time: "10:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
+            {
+              time: "10:00",
+              title: "Recepcion y Registro de Participantes",
+              desc: "",
+              type: "registro",
+            },
             { time: "10:15", title: "Apertura", desc: "", type: "apertura" },
-            { time: "10:20", title: "Mesa de Lectura 10", desc: "", type: "lectura" },
-            { time: "10:50", title: "Mesa de Lectura 11", desc: "", type: "lectura" },
-            { time: "11:20", title: 'Antologia "Vuelo de la Palabra por la Paz"', desc: "Academia Nacional e Internacional de la Poesia - SMGE Michoacan", type: "presentacion" },
-            { time: "11:40", title: "Mesa de Lectura 12", desc: "", type: "lectura" },
-            { time: "12:10", title: "Mesa de Lectura - Asociacion Red Nemesis", desc: "Presentada por Juan Contreras", type: "lectura" },
-            { time: "12:30", title: "In Memoriam: Marco Antonio Herrera Guido", desc: "Por Rosario Herrera Guido", type: "memoriam" },
-            { time: "12:45", title: "Mesa de Lectura 13", desc: "", type: "lectura" },
-            { time: "13:15", title: "Mesa de Lectura 14", desc: "", type: "lectura" },
-            { time: "13:45", title: "Grupo de Danza THIPIKUARETA PURHEMBE", desc: "Riqueza Purepecha", type: "danza" },
-            { time: "14:15", title: "Receso para Comida", desc: "", type: "receso" },
+            {
+              time: "10:20",
+              title: "Mesa de Lectura 10",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "10:50",
+              title: "Mesa de Lectura 11",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "11:20",
+              title: 'Antologia "Vuelo de la Palabra por la Paz"',
+              desc: "Academia Nacional e Internacional de la Poesia - SMGE Michoacan",
+              type: "presentacion",
+            },
+            {
+              time: "11:40",
+              title: "Mesa de Lectura 12",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "12:10",
+              title: "Mesa de Lectura - Asociacion Red Nemesis",
+              desc: "Presentada por Juan Contreras",
+              type: "lectura",
+            },
+            {
+              time: "12:30",
+              title: "In Memoriam: Marco Antonio Herrera Guido",
+              desc: "Por Rosario Herrera Guido",
+              type: "memoriam",
+            },
+            {
+              time: "12:45",
+              title: "Mesa de Lectura 13",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "13:15",
+              title: "Mesa de Lectura 14",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "13:45",
+              title: "Grupo de Danza THIPIKUARETA PURHEMBE",
+              desc: "Riqueza Purepecha",
+              type: "danza",
+            },
+            {
+              time: "14:15",
+              title: "Receso para Comida",
+              desc: "",
+              type: "receso",
+            },
           ],
         },
         {
@@ -1160,15 +1376,60 @@ async function generateProgramPDF() {
           sessionLabel: "Sesion Vespertina",
           divider: "SESION VESPERTINA",
           events: [
-            { time: "16:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
-            { time: "16:30", title: "Mesa de Lectura 15", desc: "", type: "lectura" },
-            { time: "17:00", title: "Mesa de Lectura 16", desc: "", type: "lectura" },
-            { time: "17:30", title: "Mesa de Lectura 17", desc: "", type: "lectura" },
-            { time: "18:00", title: "Mesa de Lectura 18", desc: "", type: "lectura" },
-            { time: "18:30", title: "Mesa de Lectura 19", desc: "", type: "lectura" },
-            { time: "19:00", title: "Presentacion Musical", desc: "", type: "musica" },
-            { time: "19:20", title: "Fotografia Oficial", desc: "", type: "foto" },
-            { time: "19:25", title: "CLAUSURA DEL EVENTO", desc: "Ceremonia de cierre del 11o Encuentro Internacional de Poetas", type: "clausura" },
+            {
+              time: "16:00",
+              title: "Recepcion y Registro de Participantes",
+              desc: "",
+              type: "registro",
+            },
+            {
+              time: "16:30",
+              title: "Mesa de Lectura 15",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "17:00",
+              title: "Mesa de Lectura 16",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "17:30",
+              title: "Mesa de Lectura 17",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "18:00",
+              title: "Mesa de Lectura 18",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "18:30",
+              title: "Mesa de Lectura 19",
+              desc: "",
+              type: "lectura",
+            },
+            {
+              time: "19:00",
+              title: "Presentacion Musical",
+              desc: "",
+              type: "musica",
+            },
+            {
+              time: "19:20",
+              title: "Fotografia Oficial",
+              desc: "",
+              type: "foto",
+            },
+            {
+              time: "19:25",
+              title: "CLAUSURA DEL EVENTO",
+              desc: "Ceremonia de cierre del 11o Encuentro Internacional de Poetas",
+              type: "clausura",
+            },
           ],
         },
       ],
@@ -1197,16 +1458,22 @@ async function generateProgramPDF() {
   doc.setTextColor(...white);
   doc.setFontSize(24);
   doc.setFont("helvetica", "bold");
-  doc.text("11o Encuentro Internacional", pageWidth / 2, 22, { align: "center" });
+  doc.text("11o Encuentro Internacional", pageWidth / 2, 22, {
+    align: "center",
+  });
   doc.setFontSize(20);
   doc.text("de Poetas del Cupatitzio", pageWidth / 2, 32, { align: "center" });
   doc.setTextColor(...accent);
   doc.setFontSize(14);
   doc.setFont("helvetica", "bold");
-  doc.text("26, 27 y 28 de Febrero 2026", pageWidth / 2, 44, { align: "center" });
+  doc.text("26, 27 y 28 de Febrero 2026", pageWidth / 2, 44, {
+    align: "center",
+  });
   doc.setTextColor(180, 180, 180);
   doc.setFontSize(10);
-  doc.text("Uruapan, Michoacan, Mexico", pageWidth / 2, 52, { align: "center" });
+  doc.text("Uruapan, Michoacan, Mexico", pageWidth / 2, 52, {
+    align: "center",
+  });
 
   currentY = 65;
   doc.setFillColor(...lightGray);
@@ -1217,18 +1484,29 @@ async function generateProgramPDF() {
   doc.setTextColor(...primary);
   doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
-  doc.text("SEDE: CENTRO CULTURAL FABRICA DE SAN PEDRO", pageWidth / 2, currentY + 6, { align: "center" });
+  doc.text(
+    "SEDE: CENTRO CULTURAL FABRICA DE SAN PEDRO",
+    pageWidth / 2,
+    currentY + 6,
+    { align: "center" },
+  );
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...secondary);
-  doc.text("Miguel Trevino 100, Col. Centro, Uruapan, Michoacan", pageWidth / 2, currentY + 11, { align: "center" });
+  doc.text(
+    "Miguel Trevino 100, Col. Centro, Uruapan, Michoacan",
+    pageWidth / 2,
+    currentY + 11,
+    { align: "center" },
+  );
 
   currentY = 85;
 
   // ===== RENDER PROGRAM =====
   for (const day of programData) {
     // Check if day header + first session fit, otherwise new page
-    const firstSessionHeight = day.sessions.length > 0 ? calcSessionHeight(day.sessions[0]) : 0;
+    const firstSessionHeight =
+      day.sessions.length > 0 ? calcSessionHeight(day.sessions[0]) : 0;
     ensureSpace(20 + firstSessionHeight);
 
     drawDayHeader(day.dayNum, day.dayName);
@@ -1267,11 +1545,18 @@ async function generateProgramPDF() {
   doc.setTextColor(...primary);
   doc.setFontSize(11);
   doc.setFont("helvetica", "italic");
-  doc.text('"Donde hay poesia, hay esperanza"', pageWidth / 2, currentY + 9, { align: "center" });
+  doc.text('"Donde hay poesia, hay esperanza"', pageWidth / 2, currentY + 9, {
+    align: "center",
+  });
   doc.setFontSize(7);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...secondary);
-  doc.text("(c) 2026 - 11o Encuentro Internacional de Poetas del Cupatitzio", pageWidth / 2, currentY + 15, { align: "center" });
+  doc.text(
+    "(c) 2026 - 11o Encuentro Internacional de Poetas del Cupatitzio",
+    pageWidth / 2,
+    currentY + 15,
+    { align: "center" },
+  );
 
   addFooter();
 
