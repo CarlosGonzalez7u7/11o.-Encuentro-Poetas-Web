@@ -17,7 +17,7 @@ const poets = [
   { number: 2, name: "Adolfo Vargas Murguia" },
   { number: 3, name: "Adriana Lizbeth Rodriguez Lino" },
   { number: 4, name: "Aldo Cristian Méndez Castillo" },
-  { number: 5, name: "Alejandro Zapata Espinosa" },
+  { number: 5, name: "Alejandro Zapata Espinoza" },
   { number: 6, name: "Alejandro Bautista Villegas" },
   { number: 7, name: "Alfonso Pérez Molina" },
   { number: 8, name: "Andrea Murillo Heredia" },
@@ -32,7 +32,7 @@ const poets = [
   { number: 17, name: "Bruno Arturo Mujica Juárez" },
   { number: 18, name: "Caridad Villicaña Equihua" },
   { number: 19, name: "Carlos Morales Cuevas" },
-  { number: 20, name: "Carmelo López Velazquez" },
+  { number: 20, name: "José Carmelo López Velázquez" },
   { number: 21, name: "Carmen Neri Ceja" },
   { number: 22, name: "Carol Paola Avalos Uribe" },
   { number: 23, name: "Cecilia Ekaterina Cornejo García" },
@@ -110,7 +110,7 @@ const poets = [
   { number: 95, name: "Mario Cruz Palomino" },
   { number: 96, name: "Martín Alarcón Novoa" },
   { number: 97, name: "Martín Paz Hurtado" },
-  { number: 98, name: "Masiel Montserrat Corona Santos" },
+  { number: 98, name: "Masiel Monserrat Corona Santos" },
   { number: 99, name: "Maya Lorena Pérez Ruiz" },
   { number: 100, name: "Paulina Gisele Álvarez Díaz" },
   { number: 101, name: "Pedro Yovani Ramos Parra" },
@@ -126,7 +126,7 @@ const poets = [
   { number: 111, name: "Sandra Isabel Martinez Martinez" },
   { number: 112, name: "Santiago Mate Cisneros" },
   { number: 113, name: "Saúl Martínez Aceves" },
-  { number: 114, name: "Sergio Roberto Prado Renteria" },
+  { number: 114, name: "Sergio Roberto Prado Rentería" },
   { number: 115, name: "Silvia Torres Paleo" },
   { number: 116, name: "Teresita del niño Jesús Vega Campa" },
   { number: 117, name: "Teresita Gretey Rangel Dadda" },
@@ -139,7 +139,6 @@ const poets = [
   { number: 124, name: "Zully Jannet Dávalos Dueñas" },
 ];
 
-// ---- MESA ASSIGNMENTS ----
 // 19 mesas spread across 3 days (updated schedule)
 const mesasData = [
   {
@@ -156,6 +155,7 @@ const mesasData = [
           "Gertrudis Hernández López",
           "Andrea Murillo Heredia",
           "Leopoldo Josué Espinoza Monroy",
+          "Alejandro Zapata Espinoza",
         ],
       },
       {
@@ -167,6 +167,7 @@ const mesasData = [
           "Rodrigo Rocha Rojas",
           "Martín Alarcón Novoa",
           "Lugupe",
+          "Héctor Vargas Montaña",
         ],
       },
     ],
@@ -185,6 +186,7 @@ const mesasData = [
           "Daniela Isidora Medina Calderón",
           "Fátima Ruiz Sotelo",
           "Silvia Torres Paleo",
+          "Jaime Fernando Santos Rico",
         ],
       },
       {
@@ -196,6 +198,7 @@ const mesasData = [
           "Evelin Yasmin Bastida Mora",
           "Elizabeth Robles Hernández",
           "Fátima Michel Bedolla Plancarte",
+          "José Francisco Cuevas Garibay",
         ],
       },
       {
@@ -207,6 +210,7 @@ const mesasData = [
           "Juan Manuel Madrigal Miranda",
           "Luis Eduardo Olivo Moreno",
           "Lorenzo Esteban Vital",
+          "Juan Carlos Gonzalez Orozco",
         ],
       },
       {
@@ -218,6 +222,7 @@ const mesasData = [
           "Jesús García Rincón",
           "Laura Estela Ramos Chávez",
           "María del Carmen Álvarez Aguilar",
+          "Makario de la Peña",
         ],
       },
     ],
@@ -236,6 +241,7 @@ const mesasData = [
           "María Soledad Álvarez López",
           "Virginia López López",
           "Xitlali Becerra Pedraza",
+          "María Guadalupe Ávalos Hernández",
         ],
       },
       {
@@ -247,6 +253,7 @@ const mesasData = [
           "Cristina Curiel Alcantara",
           "Graciela Osuna García",
           "Gustavo Adolfo Vargas Núñez",
+          "Masiel Monserrat Corona Santos",
         ],
       },
       {
@@ -259,6 +266,7 @@ const mesasData = [
           "Gerardo Ramos Ruíz",
           "José Antonio Guillén Vargas",
           "Ángel Alejandro Chàvez Chàvez",
+          "Pedro Yovani Ramos Parra",
         ],
       },
     ],
@@ -277,6 +285,7 @@ const mesasData = [
           "Josué Fernando Morales Gómez",
           "Sandra Isabel Martinez Martinez",
           "Paulina Gisele Álvarez Díaz",
+          "Prisciliano Alvarez Reyes",
         ],
       },
       {
@@ -288,6 +297,7 @@ const mesasData = [
           "Juan García Chávez",
           "Edel Zavala Regalado",
           "María Teresa Elizabeth Niehus Casillas",
+          "Rubén Sandoval Aguiar",
         ],
       },
       {
@@ -322,6 +332,7 @@ const mesasData = [
           "Rubén Falcón Márquez",
           "Larissa Sanabria Bueno",
           "Belen Bethzaida Ruiz Perez",
+          "Sergio Roberto Prado Rentería",
         ],
       },
     ],
@@ -341,6 +352,7 @@ const mesasData = [
           "Frida Mariana Bustos Esquivel",
           "Carol Paola Avalos Uribe",
           "Alejandro Bautista Villegas",
+          "José Carmelo López Velázquez",
         ],
       },
       {
@@ -353,6 +365,7 @@ const mesasData = [
           "Zully Jannet Dávalos Dueñas",
           "Jesús Alejandro Ramirez Mendoza",
           "Héctor Martín Moreno Dimas",
+          "Juan Pablo Goñi Capurro",
         ],
       },
       {
@@ -496,14 +509,21 @@ function initNavigation() {
   const links = document.getElementById("navLinks");
   const navLinks = document.querySelectorAll(".nav-link");
 
+  if (!toggle || !links) return;
+
   // Toggle mobile menu
-  toggle.addEventListener("click", () => {
+  function toggleMenu(e) {
+    e.preventDefault();
+    e.stopPropagation();
     toggle.classList.toggle("active");
     links.classList.toggle("open");
     document.body.style.overflow = links.classList.contains("open")
       ? "hidden"
       : "";
-  });
+  }
+
+  // Use both click for desktop and touchstart for better mobile response
+  toggle.addEventListener("click", toggleMenu, { passive: false });
 
   // Close menu on link click
   navLinks.forEach((link) => {
@@ -882,6 +902,54 @@ function initPDFDownload() {
   btn.addEventListener("click", generateProgramPDF);
 }
 
+// Helper function to load image as circular for PDF
+function loadImageAsCircular(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const size = Math.min(img.width, img.height);
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+
+      // Create circular clip
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+
+      // Draw image centered
+      const offsetX = (img.width - size) / 2;
+      const offsetY = (img.height - size) / 2;
+      ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
+
+      resolve(canvas.toDataURL("image/png"));
+    };
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+// Helper function to load image as base64 for PDF
+function loadImageAsBase64(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      resolve(canvas.toDataURL("image/png"));
+    };
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
 async function generateProgramPDF() {
   const btn = document.getElementById("downloadPdfBtn");
   const originalText = btn.innerHTML;
@@ -895,6 +963,12 @@ async function generateProgramPDF() {
       "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
     );
   }
+
+  // Load logos for the PDF
+  const [logoPoetas, logoCCFS] = await Promise.all([
+    loadImageAsCircular("img/PoetasCupa.png"),
+    loadImageAsBase64("img/CCFS.png"),
+  ]);
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "mm", "a4");
@@ -914,6 +988,7 @@ async function generateProgramPDF() {
   const blue = [59, 130, 246];
   const pink = [236, 72, 153];
   const green = [16, 185, 129];
+  const orange = [249, 115, 22];
 
   let currentY = 0;
   let pageNum = 1;
@@ -923,11 +998,27 @@ async function generateProgramPDF() {
     doc.rect(0, 0, pageWidth, 12, "F");
     doc.setFillColor(...accent);
     doc.rect(0, 12, pageWidth, 2, "F");
+
+    // Small logos in header corners
+    if (logoPoetas) {
+      try {
+        doc.addImage(logoPoetas, "PNG", 3, 1, 10, 10);
+      } catch (e) {}
+    }
+    if (logoCCFS) {
+      try {
+        // White background for CCFS logo
+        doc.setFillColor(255, 255, 255);
+        doc.circle(pageWidth - 8, 6, 5.5, "F");
+        doc.addImage(logoCCFS, "PNG", pageWidth - 13, 1, 10, 10);
+      } catch (e) {}
+    }
+
     doc.setTextColor(...white);
-    doc.setFontSize(9);
+    doc.setFontSize(8);
     doc.setFont("helvetica", "bold");
     doc.text(
-      "11o Encuentro Internacional de Poetas del Cupatitzio | 26, 27 y 28 de Febrero 2026",
+      "11o Encuentro Internacional de Poetas del Cupatitzio | 26-28 Feb 2026",
       pageWidth / 2,
       8,
       { align: "center" },
@@ -935,27 +1026,58 @@ async function generateProgramPDF() {
   }
 
   function addFooter() {
+    // Decorative footer with poetic quote
     doc.setFillColor(...accent);
-    doc.rect(0, pageHeight - 10, pageWidth, 10, "F");
+    doc.rect(0, pageHeight - 14, pageWidth, 14, "F");
+
+    // Poetic quote
     doc.setTextColor(...primary);
+    doc.setFontSize(6);
+    doc.setFont("helvetica", "italic");
+    doc.text(
+      '"La poesia es el eco de la melodia del universo en el corazon de los humanos"',
+      pageWidth / 2,
+      pageHeight - 10,
+      { align: "center" },
+    );
+
+    // Footer info
     doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
     doc.text(
-      "Centro Cultural Fabrica de San Pedro | Uruapan, Michoacan, Mexico",
+      "Centro Cultural Fabrica de San Pedro | Uruapan, Michoacan",
       margin,
       pageHeight - 4,
     );
-    doc.text("Pagina " + pageNum, pageWidth - margin, pageHeight - 4, {
-      align: "right",
-    });
+    doc.text(
+      "Poetas del Cupatitzio | Pag. " + pageNum,
+      pageWidth - margin,
+      pageHeight - 4,
+      {
+        align: "right",
+      },
+    );
   }
 
   function newPage() {
     addFooter();
+    // Add subtle decorative elements
+    addPageDecorations();
     doc.addPage();
     pageNum++;
     addSmallHeader();
     currentY = 20;
+  }
+
+  // Subtle decorative elements for pages
+  function addPageDecorations() {
+    // Decorative corner circles with low opacity
+    doc.setFillColor(212, 165, 116);
+    doc.setDrawColor(212, 165, 116);
+
+    // Bottom corners - small decorative circles
+    doc.circle(8, pageHeight - 22, 3, "S");
+    doc.circle(pageWidth - 8, pageHeight - 22, 3, "S");
   }
 
   function ensureSpace(neededHeight) {
@@ -1054,6 +1176,12 @@ async function generateProgramPDF() {
       case "receso":
         bgColor = [248, 248, 248];
         leftColor = gray;
+        break;
+      case "mesa":
+      case "mesas":
+      case "lectura":
+        bgColor = [255, 247, 237];
+        leftColor = orange;
         break;
       default:
         bgColor = [255, 255, 255];
@@ -1449,33 +1577,93 @@ async function generateProgramPDF() {
 
   // ===== COVER PAGE =====
   doc.setFillColor(...primary);
-  doc.rect(0, 0, pageWidth, 55, "F");
+  doc.rect(0, 0, pageWidth, 60, "F");
   doc.setFillColor(...accent);
-  doc.rect(0, 55, pageWidth, 4, "F");
-  doc.setFillColor(60, 40, 30);
-  doc.circle(30, 25, 40, "F");
-  doc.circle(180, 35, 30, "F");
+  doc.rect(0, 60, pageWidth, 4, "F");
+
+  // Decorative circles for logos - positioned at sides
+  const leftCircleX = 26;
+  const leftCircleY = 30;
+  const circleR = 18;
+
+  const rightCircleX = pageWidth - 26;
+  const rightCircleY = 30;
+
+  // Dark brown outer circles (decorative border)
+  doc.setFillColor(80, 55, 40);
+  doc.circle(leftCircleX, leftCircleY, circleR + 2, "F");
+  doc.circle(rightCircleX, rightCircleY, circleR + 2, "F");
+
+  // White inner circles for logos
+  doc.setFillColor(255, 255, 255);
+  doc.circle(leftCircleX, leftCircleY, circleR, "F");
+  doc.circle(rightCircleX, rightCircleY, circleR, "F");
+
+  // Add logos - sized to fit within circles (diameter = circleR * 2)
+  const logoDiameter = circleR * 2 - 4; // Leave 2mm padding on each side
+
+  if (logoPoetas) {
+    try {
+      doc.addImage(
+        logoPoetas,
+        "PNG",
+        leftCircleX - logoDiameter / 2,
+        leftCircleY - logoDiameter / 2,
+        logoDiameter,
+        logoDiameter,
+      );
+    } catch (e) {
+      console.log("Error adding PoetasCupa logo:", e);
+    }
+  }
+
+  if (logoCCFS) {
+    try {
+      doc.addImage(
+        logoCCFS,
+        "PNG",
+        rightCircleX - logoDiameter / 2,
+        rightCircleY - logoDiameter / 2,
+        logoDiameter,
+        logoDiameter,
+      );
+    } catch (e) {
+      console.log("Error adding CCFS logo:", e);
+    }
+  }
+
+  // Title text
   doc.setTextColor(...white);
-  doc.setFontSize(24);
+  doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text("11o Encuentro Internacional", pageWidth / 2, 22, {
+  doc.text("11o Encuentro Internacional", pageWidth / 2, 20, {
     align: "center",
   });
-  doc.setFontSize(20);
-  doc.text("de Poetas del Cupatitzio", pageWidth / 2, 32, { align: "center" });
+  doc.setFontSize(18);
+  doc.text("de Poetas del Cupatitzio", pageWidth / 2, 29, { align: "center" });
   doc.setTextColor(...accent);
-  doc.setFontSize(14);
+  doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
-  doc.text("26, 27 y 28 de Febrero 2026", pageWidth / 2, 44, {
+  doc.text("26, 27 y 28 de Febrero 2026", pageWidth / 2, 40, {
     align: "center",
   });
-  doc.setTextColor(180, 180, 180);
-  doc.setFontSize(10);
-  doc.text("Uruapan, Michoacan, Mexico", pageWidth / 2, 52, {
+  doc.setTextColor(200, 200, 200);
+  doc.setFontSize(9);
+  doc.text("Uruapan, Michoacan, Mexico", pageWidth / 2, 48, {
     align: "center",
   });
 
-  currentY = 65;
+  // Schedule badge/title
+  doc.setFillColor(...accent);
+  doc.roundedRect(pageWidth / 2 - 40, 52, 80, 7, 2, 2, "F");
+  doc.setTextColor(...primary);
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "bold");
+  doc.text("CRONOGRAMA DE ACTIVIDADES", pageWidth / 2, 57, {
+    align: "center",
+  });
+
+  currentY = 70;
   doc.setFillColor(...lightGray);
   doc.roundedRect(margin, currentY, contentWidth, 14, 3, 3, "F");
   doc.setDrawColor(...accent);
@@ -1500,7 +1688,53 @@ async function generateProgramPDF() {
     { align: "center" },
   );
 
-  currentY = 85;
+  // Color legend for event types - organized in two rows
+  currentY = 88;
+  doc.setFontSize(7);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...primary);
+  doc.text("LEYENDA DE ACTIVIDADES:", margin, currentY);
+
+  currentY += 5;
+  const legendRow1 = [
+    { color: accent, label: "Inauguracion/Clausura" },
+    { color: orange, label: "Mesas de Lectura" },
+    { color: purple, label: "In Memoriam" },
+    { color: blue, label: "Conferencia" },
+  ];
+  const legendRow2 = [
+    { color: pink, label: "Musica/Danza" },
+    { color: green, label: "Presentacion" },
+    { color: gray, label: "Receso" },
+  ];
+
+  // Row 1
+  let legendX = margin;
+  const legendSpacing = 45;
+  legendRow1.forEach((item) => {
+    doc.setFillColor(...item.color);
+    doc.circle(legendX + 1.5, currentY, 1.5, "F");
+    doc.setTextColor(60, 60, 60);
+    doc.setFontSize(6);
+    doc.setFont("helvetica", "normal");
+    doc.text(item.label, legendX + 4, currentY + 1);
+    legendX += legendSpacing;
+  });
+
+  // Row 2
+  currentY += 5;
+  legendX = margin;
+  legendRow2.forEach((item) => {
+    doc.setFillColor(...item.color);
+    doc.circle(legendX + 1.5, currentY, 1.5, "F");
+    doc.setTextColor(60, 60, 60);
+    doc.setFontSize(6);
+    doc.setFont("helvetica", "normal");
+    doc.text(item.label, legendX + 4, currentY + 1);
+    legendX += legendSpacing;
+  });
+
+  currentY = 105;
 
   // ===== RENDER PROGRAM =====
   for (const day of programData) {
