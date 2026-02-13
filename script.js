@@ -1035,7 +1035,7 @@ async function generateProgramPDF() {
     doc.setFontSize(6);
     doc.setFont("helvetica", "italic");
     doc.text(
-      '"La poesia es el eco de la melodia del universo en el corazon de los humanos"',
+      '"La poesía es el eco de la melodía del universo en el corazón de los humanos"',
       pageWidth / 2,
       pageHeight - 10,
       { align: "center" },
@@ -1045,7 +1045,7 @@ async function generateProgramPDF() {
     doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
     doc.text(
-      "Centro Cultural Fabrica de San Pedro | Uruapan, Michoacan",
+      "Centro Cultural Fábrica de San Pedro | Uruapan, Michoacán",
       margin,
       pageHeight - 4,
     );
@@ -1219,23 +1219,23 @@ async function generateProgramPDF() {
       sessions: [
         {
           venue: "GRAN NAVE (Sala de Exposiciones) - Planta Principal",
-          sessionLabel: "Sesion Vespertina",
+          sessionLabel: "Sesión Vespertina",
           events: [
             {
               time: "16:30",
-              title: "Recepcion y Registro de Participantes",
-              desc: "Entrega de antologias 2025-2026",
+              title: "Recepción y Registro de Participantes",
+              desc: "Entrega de antologías 2025-2026",
               type: "registro",
             },
             {
               time: "17:00",
-              title: "Inauguracion Oficial",
+              title: "Inauguración Oficial",
               desc: "Ceremonia de apertura del 11o Encuentro",
               type: "inauguracion",
             },
             {
               time: "17:15",
-              title: "Presentacion Musical",
+              title: "Presentación Musical",
               desc: "",
               type: "musica",
             },
@@ -1280,11 +1280,11 @@ async function generateProgramPDF() {
       sessions: [
         {
           venue: "CRUJIA 6 - Area Posterior",
-          sessionLabel: "Sesion Matutina",
+          sessionLabel: "Sesión Matutina",
           events: [
             {
               time: "10:00",
-              title: "Recepcion y Registro de Participantes",
+              title: "Recepción y Registro de Participantes",
               desc: "",
               type: "registro",
             },
@@ -1296,7 +1296,7 @@ async function generateProgramPDF() {
             },
             {
               time: "10:35",
-              title: "Presentacion de Antologia Poetica",
+              title: "Presentación de Antología Poética",
               desc: "Universidad Don Vasco - Francisco Javier Ramos Ruiz",
               type: "presentacion",
             },
@@ -1339,7 +1339,7 @@ async function generateProgramPDF() {
             },
             {
               time: "13:45",
-              title: "Cierre Sesion Matutina - Receso para Comida",
+              title: "Cierre Sesión Matutina - Receso para Comida",
               desc: "",
               type: "receso",
             },
@@ -1347,12 +1347,12 @@ async function generateProgramPDF() {
         },
         {
           venue: "CRUJIA 6 - Area Posterior",
-          sessionLabel: "Sesion Vespertina",
-          divider: "SESION VESPERTINA",
+          sessionLabel: "Sesión Vespertina",
+          divider: "Sesión VESPERTINA",
           events: [
             {
               time: "16:00",
-              title: "Recepcion y Registro de Participantes",
+              title: "Recepción y Registro de Participantes",
               desc: "",
               type: "registro",
             },
@@ -1401,7 +1401,7 @@ async function generateProgramPDF() {
           events: [
             {
               time: "18:40",
-              title: "Presentacion Musical",
+              title: "Presentación Musical",
               desc: "",
               type: "musica",
             },
@@ -1428,11 +1428,11 @@ async function generateProgramPDF() {
       sessions: [
         {
           venue: "CRUJIA 6 - Area Posterior",
-          sessionLabel: "Sesion Matutina",
+          sessionLabel: "Sesión Matutina",
           events: [
             {
               time: "10:00",
-              title: "Recepcion y Registro de Participantes",
+              title: "Recepción y Registro de Participantes",
               desc: "",
               type: "registro",
             },
@@ -1452,7 +1452,7 @@ async function generateProgramPDF() {
             {
               time: "11:20",
               title: 'Antologia "Vuelo de la Palabra por la Paz"',
-              desc: "Academia Nacional e Internacional de la Poesia - SMGE Michoacan",
+              desc: "Academia Nacional e Internacional de la Poesía - SMGE Michoacan",
               type: "presentacion",
             },
             {
@@ -1501,12 +1501,12 @@ async function generateProgramPDF() {
         },
         {
           venue: "GRAN NAVE (Sala de Exposiciones)",
-          sessionLabel: "Sesion Vespertina",
-          divider: "SESION VESPERTINA",
+          sessionLabel: "Sesión Vespertina",
+          divider: "Sesión VESPERTINA",
           events: [
             {
               time: "16:00",
-              title: "Recepcion y Registro de Participantes",
+              title: "Recepción y Registro de Participantes",
               desc: "",
               type: "registro",
             },
@@ -1542,7 +1542,7 @@ async function generateProgramPDF() {
             },
             {
               time: "19:00",
-              title: "Presentacion Musical",
+              title: "Presentación Musical",
               desc: "",
               type: "musica",
             },
@@ -1649,7 +1649,7 @@ async function generateProgramPDF() {
   });
   doc.setTextColor(200, 200, 200);
   doc.setFontSize(9);
-  doc.text("Uruapan, Michoacan, Mexico", pageWidth / 2, 48, {
+  doc.text("Uruapan, Michoacán, México", pageWidth / 2, 48, {
     align: "center",
   });
 
@@ -1682,7 +1682,7 @@ async function generateProgramPDF() {
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...secondary);
   doc.text(
-    "Miguel Trevino 100, Col. Centro, Uruapan, Michoacan",
+    "Miguel Treviño 100, Col. Centro, Uruapan, Michoacán",
     pageWidth / 2,
     currentY + 11,
     { align: "center" },
@@ -1697,14 +1697,14 @@ async function generateProgramPDF() {
 
   currentY += 5;
   const legendRow1 = [
-    { color: accent, label: "Inauguracion/Clausura" },
+    { color: accent, label: "Inauguración/Clausura" },
     { color: orange, label: "Mesas de Lectura" },
     { color: purple, label: "In Memoriam" },
     { color: blue, label: "Conferencia" },
   ];
   const legendRow2 = [
-    { color: pink, label: "Musica/Danza" },
-    { color: green, label: "Presentacion" },
+    { color: pink, label: "Música/Danza" },
+    { color: green, label: "Presentación" },
     { color: gray, label: "Receso" },
   ];
 
@@ -1779,7 +1779,7 @@ async function generateProgramPDF() {
   doc.setTextColor(...primary);
   doc.setFontSize(11);
   doc.setFont("helvetica", "italic");
-  doc.text('"Donde hay poesia, hay esperanza"', pageWidth / 2, currentY + 9, {
+  doc.text('"Donde hay Poesía, hay esperanza"', pageWidth / 2, currentY + 9, {
     align: "center",
   });
   doc.setFontSize(7);
