@@ -4,6 +4,14 @@
 // =============================================
 
 // ---- POET DATA ----
+// Mapeo especial para imágenes (nombre mostrado → nombre de archivo)
+const imageNameMap = {
+  "Roger Caldeyro": "Rogeri Caldeyro Vazquez",
+  Lugupe: "José Luis Gutierrez Peña",
+  "Arturo Martínez": "Arturo Reyes Martínez",
+  "Rosario Herrera Guido": null, // No tiene imagen, usará avatar
+};
+
 const poets = [
   { number: 1, name: "Abdías Martínez" },
   { number: 2, name: "Adolfo Vargas Murguia" },
@@ -15,7 +23,7 @@ const poets = [
   { number: 8, name: "Andrea Murillo Heredia" },
   { number: 9, name: "Ángel Alejandro Chàvez Chàvez" },
   { number: 10, name: "Antonio Ávalos Espinoza" },
-  { number: 11, name: "Arturo Reyes Martínez" },
+  { number: 11, name: "Arturo Martínez" },
   { number: 12, name: "Asshly Adalay Delgado Ponce" },
   { number: 13, name: "Belen Bethzaida Ruiz Perez" },
   { number: 14, name: "Benjamin Ureña Campos" },
@@ -71,7 +79,7 @@ const poets = [
   { number: 64, name: "José Francisco Cuevas Garibay" },
   { number: 65, name: "Jose Guadalupe Saenz Naranjo" },
   { number: 66, name: "José Iván Ceja Durán" },
-  { number: 67, name: "José Luis Gutierrez Peña" },
+  { number: 67, name: "Lugupe" },
   { number: 68, name: "Josué Fernando Morales Gómez" },
   { number: 69, name: "Juan Contreras Hernández" },
   { number: 70, name: "Juan García Chávez" },
@@ -109,100 +117,278 @@ const poets = [
   { number: 102, name: "Prisciliano Alvarez Reyes" },
   { number: 103, name: "Raúl Duarte Castillo" },
   { number: 104, name: "Rodrigo Rocha Rojas" },
-  { number: 105, name: "Rogeri Caldeyro Vazquez" },
-  { number: 106, name: "Rosaura Tamayo Ochoa" },
-  { number: 107, name: "Rubén Sandoval Aguiar" },
-  { number: 108, name: "Rubén Falcón Márquez" },
-  { number: 109, name: "Ruth Sáenz Naranjo" },
-  { number: 110, name: "Sandra Isabel Martinez Martinez" },
-  { number: 111, name: "Santiago Mate Cisneros" },
-  { number: 112, name: "Saúl Martínez Aceves" },
-  { number: 113, name: "Sergio Roberto Prado Renteria" },
-  { number: 114, name: "Silvia Torres Paleo" },
-  { number: 115, name: "Teresita del niño Jesús Vega Campa" },
-  { number: 116, name: "Teresita Gretey Rangel Dadda" },
-  { number: 117, name: "Verónica Salazar García" },
-  { number: 118, name: "Victoria Martinez Barrón" },
-  { number: 119, name: "Virginia López López" },
-  { number: 120, name: "Ximena Quintero Uribe" },
-  { number: 121, name: "Xitlali Becerra Pedraza" },
-  { number: 122, name: "Yuritskiri Campos Anguiano" },
-  { number: 123, name: "Zully Jannet Dávalos Dueñas" },
+  { number: 105, name: "Roger Caldeyro" },
+  { number: 106, name: "Rosario Herrera Guido" },
+  { number: 107, name: "Rosaura Tamayo Ochoa" },
+  { number: 108, name: "Rubén Sandoval Aguiar" },
+  { number: 109, name: "Rubén Falcón Márquez" },
+  { number: 110, name: "Ruth Sáenz Naranjo" },
+  { number: 111, name: "Sandra Isabel Martinez Martinez" },
+  { number: 112, name: "Santiago Mate Cisneros" },
+  { number: 113, name: "Saúl Martínez Aceves" },
+  { number: 114, name: "Sergio Roberto Prado Renteria" },
+  { number: 115, name: "Silvia Torres Paleo" },
+  { number: 116, name: "Teresita del niño Jesús Vega Campa" },
+  { number: 117, name: "Teresita Gretey Rangel Dadda" },
+  { number: 118, name: "Verónica Salazar García" },
+  { number: 119, name: "Victoria Martinez Barrón" },
+  { number: 120, name: "Virginia López López" },
+  { number: 121, name: "Ximena Quintero Uribe" },
+  { number: 122, name: "Xitlali Becerra Pedraza" },
+  { number: 123, name: "Yuritskiri Campos Anguiano" },
+  { number: 124, name: "Zully Jannet Dávalos Dueñas" },
 ];
 
 // ---- MESA ASSIGNMENTS ----
-// 10 mesas spread across 3 days
+// 19 mesas spread across 3 days (updated schedule)
 const mesasData = [
   {
     day: 1,
-    dayLabel: "Jueves 26 de Febrero",
+    dayLabel: "Jueves 26 de Febrero - Vespertino",
     dayShort: "Jueves 26",
     mesas: [
       {
         number: 1,
-        time: "18:00 hrs",
-        poetIndices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        time: "17:45 hrs",
+        poets: [
+          "Christian Marlene Paredes Calderon",
+          "Teresita Gretey Rangel Dadda",
+          "Gertrudis Hernández López",
+          "Andrea Murillo Heredia",
+          "Leopoldo Josué Espinoza Monroy",
+        ],
       },
       {
         number: 2,
-        time: "19:30 hrs",
-        poetIndices: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+        time: "18:45 hrs",
+        poets: [
+          "Teresita del niño Jesús Vega Campa",
+          "Javier García Barrera",
+          "Rodrigo Rocha Rojas",
+          "Martín Alarcón Novoa",
+          "Lugupe",
+        ],
       },
     ],
   },
   {
     day: 2,
-    dayLabel: "Viernes 27 de Febrero",
-    dayShort: "Viernes 27",
+    dayLabel: "Viernes 27 de Febrero - Matutino",
+    dayShort: "Viernes 27 AM",
     mesas: [
       {
         number: 3,
-        time: "10:00 hrs",
-        poetIndices: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+        time: "10:55 hrs",
+        poets: [
+          "Benjamin Ureña Campos",
+          "Bruno Arturo Mujica Juárez",
+          "Daniela Isidora Medina Calderón",
+          "Fátima Ruiz Sotelo",
+          "Silvia Torres Paleo",
+        ],
       },
       {
         number: 4,
-        time: "12:00 hrs",
-        poetIndices: [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
+        time: "11:25 hrs",
+        poets: [
+          "Eulalia Ledesma Álvarez",
+          "Evangelina Hernández Carbajal",
+          "Evelin Yasmin Bastida Mora",
+          "Elizabeth Robles Hernández",
+          "Fátima Michel Bedolla Plancarte",
+        ],
       },
       {
         number: 5,
-        time: "17:00 hrs",
-        poetIndices: [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61],
+        time: "12:25 hrs",
+        poets: [
+          "Roger Caldeyro",
+          "Saúl Martínez Aceves",
+          "Juan Manuel Madrigal Miranda",
+          "Luis Eduardo Olivo Moreno",
+          "Lorenzo Esteban Vital",
+        ],
       },
       {
         number: 6,
-        time: "19:00 hrs",
-        poetIndices: [62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74],
+        time: "13:15 hrs",
+        poets: [
+          "María Concepción Ramírez Sámano",
+          "Carmen Neri Ceja",
+          "Jesús García Rincón",
+          "Laura Estela Ramos Chávez",
+          "María del Carmen Álvarez Aguilar",
+        ],
       },
     ],
   },
   {
     day: 3,
-    dayLabel: "Sábado 28 de Febrero",
-    dayShort: "Sábado 28",
+    dayLabel: "Viernes 27 de Febrero - Vespertino",
+    dayShort: "Viernes 27 PM",
     mesas: [
       {
         number: 7,
-        time: "10:00 hrs",
-        poetIndices: [75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86],
-      },
-      {
-        number: 8,
-        time: "12:00 hrs",
-        poetIndices: [87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99],
-      },
-      {
-        number: 9,
-        time: "17:00 hrs",
-        poetIndices: [
-          100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111,
+        time: "16:20 hrs",
+        poets: [
+          "Yuritskiri Campos Anguiano",
+          "Leonel Trujillo Anguiano",
+          "María Soledad Álvarez López",
+          "Virginia López López",
+          "Xitlali Becerra Pedraza",
         ],
       },
       {
+        number: 8,
+        time: "16:50 hrs",
+        poets: [
+          "Carlos Morales Cuevas",
+          "Columba Miranda Salazar",
+          "Cristina Curiel Alcantara",
+          "Graciela Osuna García",
+          "Gustavo Adolfo Vargas Núñez",
+        ],
+      },
+      {
+        number: 9,
+        time: "17:50 hrs",
+        poets: [
+          "Claudia Santillán Velázquez",
+          "Francisco Javier Ramos Ruiz",
+          "Raúl Duarte Castillo",
+          "Gerardo Ramos Ruíz",
+          "José Antonio Guillén Vargas",
+          "Ángel Alejandro Chàvez Chàvez",
+        ],
+      },
+    ],
+  },
+  {
+    day: 4,
+    dayLabel: "Sábado 28 de Febrero - Matutino",
+    dayShort: "Sábado 28 AM",
+    mesas: [
+      {
         number: 10,
-        time: "19:00 hrs",
-        poetIndices: [112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122],
+        time: "10:20 hrs",
+        poets: [
+          "Rosaura Tamayo Ochoa",
+          "Verónica Salazar García",
+          "Josué Fernando Morales Gómez",
+          "Sandra Isabel Martinez Martinez",
+          "Paulina Gisele Álvarez Díaz",
+        ],
+      },
+      {
+        number: 11,
+        time: "10:50 hrs",
+        poets: [
+          "Cecilia Ekaterina Cornejo García",
+          "Guadalupe Campos Pérez",
+          "Juan García Chávez",
+          "Edel Zavala Regalado",
+          "María Teresa Elizabeth Niehus Casillas",
+        ],
+      },
+      {
+        number: 12,
+        time: "11:40 hrs",
+        poets: [
+          "Maribel Arreola Rivas",
+          "Celina Oseguera Yepez",
+          "Jorge Albarrán Mondragón",
+          "Genaro Isaías Flores Paredes",
+          "Juan Pablo Ramírez Gallardo",
+          "Mario Cruz Palomino",
+        ],
+      },
+      {
+        number: 13,
+        time: "12:45 hrs",
+        poets: [
+          "Rosario Herrera Guido",
+          "Bertha Alicia Castillo Quezada",
+          "Verónica Salazar García",
+          "Irma Zuloaga Neri",
+          "Maria Rita Mata Moncada",
+        ],
+      },
+      {
+        number: 14,
+        time: "13:15 hrs",
+        poets: [
+          "Margarita Gaona Ortiz",
+          "Caridad Villicaña Equihua",
+          "Rubén Falcón Márquez",
+          "Larissa Sanabria Bueno",
+          "Belen Bethzaida Ruiz Perez",
+        ],
+      },
+    ],
+  },
+  {
+    day: 5,
+    dayLabel: "Sábado 28 de Febrero - Vespertino",
+    dayShort: "Sábado 28 PM",
+    mesas: [
+      {
+        number: 15,
+        time: "16:30 hrs",
+        poets: [
+          "Graciela Alicia Vizcaino Paz",
+          "Adriana Lizbeth Rodriguez Lino",
+          "Manuel Alejandro Santibáñez Huitrón",
+          "Frida Mariana Bustos Esquivel",
+          "Carol Paola Avalos Uribe",
+          "Alejandro Bautista Villegas",
+        ],
+      },
+      {
+        number: 16,
+        time: "17:00 hrs",
+        poets: [
+          "Aldo Cristian Méndez Castillo",
+          "Jennifer Farias Bustos",
+          "Ximena Quintero Uribe",
+          "Zully Jannet Dávalos Dueñas",
+          "Jesús Alejandro Ramirez Mendoza",
+          "Héctor Martín Moreno Dimas",
+        ],
+      },
+      {
+        number: 17,
+        time: "17:30 hrs",
+        poets: [
+          "Alfonso Pérez Molina",
+          "Graciela Morales Bermúdez",
+          "Jaime Montoya",
+          "Josabel Sarai Gonzalez Morales",
+          "José Iván Ceja Durán",
+          "Marco Cesar Talavera Leal",
+        ],
+      },
+      {
+        number: 18,
+        time: "18:00 hrs",
+        poets: [
+          "Julio César Vázquez Morales",
+          "Maria Teresa Sauceso Guia",
+          "Asshly Adalay Delgado Ponce",
+          "Denys Juárez Laina",
+          "Dario González Rodríguez",
+        ],
+      },
+      {
+        number: 19,
+        time: "18:30 hrs",
+        poets: [
+          "Julio Moguel",
+          "Maya Lorena Pérez Ruiz",
+          "Arturo Martínez",
+          "Martín Paz Hurtado",
+          "Héctor Raúl Zalapa Ríos",
+          "Jose Guadalupe Saenz Naranjo",
+        ],
       },
     ],
   },
@@ -216,12 +402,30 @@ function normalizeText(text) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+function getImageName(name) {
+  // Check if there's a special mapping for this poet
+  if (imageNameMap.hasOwnProperty(name)) {
+    const mappedName = imageNameMap[name];
+    // If mappedName is null, poet has no image
+    return mappedName;
+  }
+  return name;
+}
+
 function getPoetImageSrc(name) {
-  return `img/${name}.jpg`;
+  const imageName = getImageName(name);
+  if (!imageName) {
+    return getAvatarSrc(name);
+  }
+  return `img/${imageName}.jpg`;
 }
 
 function getFallbackImageSrc(name) {
-  return `img/${name}.png`;
+  const imageName = getImageName(name);
+  if (!imageName) {
+    return getAvatarSrc(name);
+  }
+  return `img/${imageName}.png`;
 }
 
 function getAvatarSrc(name) {
@@ -376,10 +580,10 @@ function findPoetMesa(poetName) {
   const normalized = normalizeText(poetName);
   for (const dayData of mesasData) {
     for (const mesa of dayData.mesas) {
-      for (const idx of mesa.poetIndices) {
-        if (normalizeText(poets[idx].name).includes(normalized)) {
+      for (const name of mesa.poets) {
+        if (normalizeText(name).includes(normalized)) {
           return {
-            poet: poets[idx],
+            poet: { name: name },
             mesa: mesa,
             day: dayData,
           };
@@ -428,7 +632,7 @@ function renderMesas(dayNumber) {
     card.className = "mesa-card";
     card.style.animationDelay = idx * 0.15 + "s";
 
-    const poetCount = mesa.poetIndices.length;
+    const poetCount = mesa.poets.length;
 
     card.innerHTML = `
       <div class="mesa-card-header">
@@ -452,12 +656,13 @@ function renderMesas(dayNumber) {
     container.appendChild(card);
 
     const poetsGrid = card.querySelector(`#mesa-poets-${mesa.number}`);
-    mesa.poetIndices.forEach((poetIdx) => {
-      const poet = poets[poetIdx];
+    mesa.poets.forEach((poetName) => {
       const shouldHighlight =
         highlightedPoetName &&
-        normalizeText(poet.name).includes(normalizeText(highlightedPoetName));
-      poetsGrid.appendChild(renderMesaPoet(poet, shouldHighlight));
+        normalizeText(poetName).includes(normalizeText(highlightedPoetName));
+      poetsGrid.appendChild(
+        renderMesaPoet({ name: poetName }, shouldHighlight),
+      );
     });
   });
 }
@@ -501,9 +706,9 @@ function initMesaSearch() {
 
       for (const dayData of mesasData) {
         for (const mesa of dayData.mesas) {
-          for (const idx of mesa.poetIndices) {
-            if (normalizeText(poets[idx].name).includes(normalizedQuery)) {
-              matches.push({ poet: poets[idx], mesa, day: dayData });
+          for (const poetName of mesa.poets) {
+            if (normalizeText(poetName).includes(normalizedQuery)) {
+              matches.push({ poet: { name: poetName }, mesa, day: dayData });
             }
           }
         }
