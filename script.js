@@ -915,18 +915,8 @@ async function generateProgramPDF() {
   const pink = [236, 72, 153];
   const green = [16, 185, 129];
 
-  // ===== HELPER FUNCTIONS =====
   let currentY = 0;
-
-  function checkNewPage(neededHeight) {
-    if (currentY + neededHeight > pageHeight - 20) {
-      doc.addPage();
-      addSmallHeader();
-      currentY = 22;
-      return true;
-    }
-    return false;
-  }
+  let pageNum = 1;
 
   function addSmallHeader() {
     doc.setFillColor(...primary);
@@ -944,7 +934,7 @@ async function generateProgramPDF() {
     );
   }
 
-  function addFooter(pageNum) {
+  function addFooter() {
     doc.setFillColor(...accent);
     doc.rect(0, pageHeight - 10, pageWidth, 10, "F");
     doc.setTextColor(...primary);
@@ -960,37 +950,43 @@ async function generateProgramPDF() {
     });
   }
 
-  function drawDayHeader(dayNum, dayName, fullDate) {
-    checkNewPage(20);
-    // Background bar
+  function newPage() {
+    addFooter();
+    doc.addPage();
+    pageNum++;
+    addSmallHeader();
+    currentY = 20;
+  }
+
+  function ensureSpace(neededHeight) {
+    if (currentY + neededHeight > pageHeight - 18) {
+      newPage();
+      return true;
+    }
+    return false;
+  }
+
+  function getEventHeight(hasDesc) {
+    return hasDesc ? 12 : 9;
+  }
+
+  function drawDayHeader(dayNum, dayName) {
     doc.setFillColor(...primary);
     doc.roundedRect(margin, currentY, contentWidth, 16, 2, 2, "F");
-
-    // Day circle
     doc.setFillColor(...accent);
     doc.circle(margin + 12, currentY + 8, 7, "F");
     doc.setTextColor(...primary);
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
-    doc.text(dayNum.toString(), margin + 12, currentY + 10, {
-      align: "center",
-    });
-
-    // Day text
+    doc.text(dayNum.toString(), margin + 12, currentY + 10, { align: "center" });
     doc.setTextColor(...white);
     doc.setFontSize(13);
     doc.setFont("helvetica", "bold");
-    doc.text(
-      dayName + " " + dayNum + " de Febrero, 2026",
-      margin + 26,
-      currentY + 10,
-    );
-
+    doc.text(dayName + " " + dayNum + " de Febrero, 2026", margin + 26, currentY + 10);
     currentY += 20;
   }
 
   function drawVenueBar(venue, session) {
-    checkNewPage(12);
     doc.setFillColor(...secondary);
     doc.roundedRect(margin, currentY, contentWidth, 10, 2, 2, "F");
     doc.setTextColor(...white);
@@ -999,15 +995,12 @@ async function generateProgramPDF() {
     doc.text("[SEDE] " + venue, margin + 4, currentY + 6);
     if (session) {
       doc.setFont("helvetica", "italic");
-      doc.text(session, pageWidth - margin - 4, currentY + 6, {
-        align: "right",
-      });
+      doc.text(session, pageWidth - margin - 4, currentY + 6, { align: "right" });
     }
     currentY += 13;
   }
 
   function drawSessionDivider(text) {
-    checkNewPage(12);
     doc.setDrawColor(...accent);
     doc.setLineWidth(0.5);
     doc.line(margin + 20, currentY + 3, pageWidth - margin - 20, currentY + 3);
@@ -1022,359 +1015,265 @@ async function generateProgramPDF() {
 
   function drawEvent(time, title, desc, type) {
     const hasDesc = desc && desc.length > 0;
-    const eventH = hasDesc ? 12 : 9;
-    checkNewPage(eventH + 2);
+    const eventH = getEventHeight(hasDesc);
 
-    // Determine colors based on type
     let bgColor = lightGray;
     let leftColor = accent;
 
     switch (type) {
       case "inauguracion":
       case "clausura":
-        bgColor = [255, 250, 235];
-        leftColor = accent;
-        break;
+        bgColor = [255, 250, 235]; leftColor = accent; break;
       case "memoriam":
-        bgColor = [248, 245, 255];
-        leftColor = purple;
-        break;
+        bgColor = [248, 245, 255]; leftColor = purple; break;
       case "conferencia":
-        bgColor = [240, 248, 255];
-        leftColor = blue;
-        break;
+        bgColor = [240, 248, 255]; leftColor = blue; break;
       case "musica":
       case "danza":
-        bgColor = [255, 245, 250];
-        leftColor = pink;
-        break;
+        bgColor = [255, 245, 250]; leftColor = pink; break;
       case "presentacion":
-        bgColor = [240, 255, 248];
-        leftColor = green;
-        break;
+        bgColor = [240, 255, 248]; leftColor = green; break;
       case "receso":
-        bgColor = [248, 248, 248];
-        leftColor = gray;
-        break;
+        bgColor = [248, 248, 248]; leftColor = gray; break;
       default:
-        bgColor = [255, 255, 255];
-        leftColor = accent;
+        bgColor = [255, 255, 255]; leftColor = accent;
     }
 
-    // Event box
     doc.setFillColor(...bgColor);
     doc.setDrawColor(220, 220, 220);
     doc.roundedRect(margin + 2, currentY, contentWidth - 4, eventH, 1, 1, "FD");
-
-    // Left color bar
     doc.setFillColor(...leftColor);
     doc.rect(margin + 2, currentY, 2.5, eventH, "F");
-
-    // Time
     doc.setTextColor(...leftColor);
     doc.setFontSize(9);
     doc.setFont("helvetica", "bold");
     doc.text(time, margin + 8, currentY + 5);
-
-    // Title
     doc.setTextColor(40, 40, 40);
     doc.setFontSize(9);
     doc.setFont("helvetica", "bold");
     doc.text(title, margin + 26, currentY + 5);
-
-    // Description
     if (hasDesc) {
       doc.setTextColor(...gray);
       doc.setFontSize(7);
       doc.setFont("helvetica", "normal");
       doc.text(desc, margin + 26, currentY + 9);
     }
-
     currentY += eventH + 2;
   }
 
-  // ===== PAGE 1: COVER + DAY 1 =====
+  // Program data structure for intelligent page breaks
+  const programData = [
+    {
+      type: "day",
+      dayNum: 26,
+      dayName: "Jueves",
+      sessions: [
+        {
+          venue: "GRAN NAVE (Sala de Exposiciones) - Planta Principal",
+          sessionLabel: "Sesion Vespertina",
+          events: [
+            { time: "16:30", title: "Recepcion y Registro de Participantes", desc: "Entrega de antologias 2025-2026", type: "registro" },
+            { time: "17:00", title: "Inauguracion Oficial", desc: "Ceremonia de apertura del 11o Encuentro", type: "inauguracion" },
+            { time: "17:15", title: "Presentacion Musical", desc: "", type: "musica" },
+            { time: "17:45", title: "Mesa de Lectura 01", desc: "", type: "lectura" },
+            { time: "18:15", title: "In Memoriam: Sandra Morales Vazquez", desc: "Lectura de poemas por Laura Ramos", type: "memoriam" },
+            { time: "18:30", title: "In Memoriam: Raul Rios Romero", desc: "Lectura de poemas por Jesus Garcia", type: "memoriam" },
+            { time: "18:45", title: "Mesa de Lectura 02", desc: "", type: "lectura" },
+            { time: "19:15", title: "Cierre de la Jornada Vespertina", desc: "", type: "cierre" },
+          ],
+        },
+      ],
+    },
+    {
+      type: "day",
+      dayNum: 27,
+      dayName: "Viernes",
+      sessions: [
+        {
+          venue: "CRUJIA 6 - Area Posterior",
+          sessionLabel: "Sesion Matutina",
+          events: [
+            { time: "10:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
+            { time: "10:30", title: "Apertura de Programa", desc: "", type: "apertura" },
+            { time: "10:35", title: "Presentacion de Antologia Poetica", desc: "Universidad Don Vasco - Francisco Javier Ramos Ruiz", type: "presentacion" },
+            { time: "10:55", title: "Mesa de Lectura 03", desc: "", type: "lectura" },
+            { time: "11:25", title: "Mesa de Lectura 04", desc: "", type: "lectura" },
+            { time: "11:55", title: "RECESO", desc: "", type: "receso" },
+            { time: "12:10", title: "In Memoriam: Francisco Javier Licea Linares", desc: "", type: "memoriam" },
+            { time: "12:25", title: "Mesa de Lectura 05", desc: "", type: "lectura" },
+            { time: "12:55", title: "In Memoriam: Jose Luis Calderon Vela", desc: "Red de Tertulias Guanajuato - Josue Fernando Morales", type: "memoriam" },
+            { time: "13:15", title: "Mesa de Lectura 06", desc: "", type: "lectura" },
+            { time: "13:45", title: "Cierre Sesion Matutina - Receso para Comida", desc: "", type: "receso" },
+          ],
+        },
+        {
+          venue: "CRUJIA 6 - Area Posterior",
+          sessionLabel: "Sesion Vespertina",
+          divider: "SESION VESPERTINA",
+          events: [
+            { time: "16:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
+            { time: "16:15", title: "Bienvenida", desc: "", type: "apertura" },
+            { time: "16:20", title: "Mesa de Lectura 07", desc: "", type: "lectura" },
+            { time: "16:50", title: "Mesa de Lectura 08", desc: "", type: "lectura" },
+            { time: "17:20", title: "In Memoriam: Guadalupe Trigueros", desc: "Por Yuritskiri Campos Anguiano", type: "memoriam" },
+            { time: "17:50", title: "Mesa de Lectura 09", desc: "", type: "lectura" },
+            { time: "18:20", title: "In Memoriam: Gracia Mendoza Bolio", desc: "Por Dra. Maria Concepcion Ramirez Samano", type: "memoriam" },
+            { time: "18:40", title: "Traslado de Participantes a la Gran Nave", desc: "", type: "traslado" },
+          ],
+        },
+        {
+          venue: "GRAN NAVE (Sala de Exposiciones)",
+          sessionLabel: "",
+          events: [
+            { time: "18:40", title: "Presentacion Musical", desc: "", type: "musica" },
+            { time: "19:00", title: "Conferencia Magistral", desc: "Michel Foucault y la Literatura Moderna - Dra. Rosario Herrera Guido", type: "conferencia" },
+            { time: "19:50", title: "Cierre de la Jornada", desc: "", type: "cierre" },
+          ],
+        },
+      ],
+    },
+    {
+      type: "day",
+      dayNum: 28,
+      dayName: "Sabado",
+      sessions: [
+        {
+          venue: "CRUJIA 6 - Area Posterior",
+          sessionLabel: "Sesion Matutina",
+          events: [
+            { time: "10:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
+            { time: "10:15", title: "Apertura", desc: "", type: "apertura" },
+            { time: "10:20", title: "Mesa de Lectura 10", desc: "", type: "lectura" },
+            { time: "10:50", title: "Mesa de Lectura 11", desc: "", type: "lectura" },
+            { time: "11:20", title: 'Antologia "Vuelo de la Palabra por la Paz"', desc: "Academia Nacional e Internacional de la Poesia - SMGE Michoacan", type: "presentacion" },
+            { time: "11:40", title: "Mesa de Lectura 12", desc: "", type: "lectura" },
+            { time: "12:10", title: "Mesa de Lectura - Asociacion Red Nemesis", desc: "Presentada por Juan Contreras", type: "lectura" },
+            { time: "12:30", title: "In Memoriam: Marco Antonio Herrera Guido", desc: "Por Rosario Herrera Guido", type: "memoriam" },
+            { time: "12:45", title: "Mesa de Lectura 13", desc: "", type: "lectura" },
+            { time: "13:15", title: "Mesa de Lectura 14", desc: "", type: "lectura" },
+            { time: "13:45", title: "Grupo de Danza THIPIKUARETA PURHEMBE", desc: "Riqueza Purepecha", type: "danza" },
+            { time: "14:15", title: "Receso para Comida", desc: "", type: "receso" },
+          ],
+        },
+        {
+          venue: "GRAN NAVE (Sala de Exposiciones)",
+          sessionLabel: "Sesion Vespertina",
+          divider: "SESION VESPERTINA",
+          events: [
+            { time: "16:00", title: "Recepcion y Registro de Participantes", desc: "", type: "registro" },
+            { time: "16:30", title: "Mesa de Lectura 15", desc: "", type: "lectura" },
+            { time: "17:00", title: "Mesa de Lectura 16", desc: "", type: "lectura" },
+            { time: "17:30", title: "Mesa de Lectura 17", desc: "", type: "lectura" },
+            { time: "18:00", title: "Mesa de Lectura 18", desc: "", type: "lectura" },
+            { time: "18:30", title: "Mesa de Lectura 19", desc: "", type: "lectura" },
+            { time: "19:00", title: "Presentacion Musical", desc: "", type: "musica" },
+            { time: "19:20", title: "Fotografia Oficial", desc: "", type: "foto" },
+            { time: "19:25", title: "CLAUSURA DEL EVENTO", desc: "Ceremonia de cierre del 11o Encuentro Internacional de Poetas", type: "clausura" },
+          ],
+        },
+      ],
+    },
+  ];
 
-  // Header
+  // Calculate session height
+  function calcSessionHeight(session) {
+    let h = 0;
+    if (session.divider) h += 10;
+    h += 13; // venue bar
+    for (const ev of session.events) {
+      h += getEventHeight(ev.desc && ev.desc.length > 0) + 2;
+    }
+    return h;
+  }
+
+  // ===== COVER PAGE =====
   doc.setFillColor(...primary);
   doc.rect(0, 0, pageWidth, 55, "F");
   doc.setFillColor(...accent);
   doc.rect(0, 55, pageWidth, 4, "F");
-
-  // Decorative circles
   doc.setFillColor(60, 40, 30);
   doc.circle(30, 25, 40, "F");
   doc.circle(180, 35, 30, "F");
-
-  // Title
   doc.setTextColor(...white);
   doc.setFontSize(24);
   doc.setFont("helvetica", "bold");
-  doc.text("11o Encuentro Internacional", pageWidth / 2, 22, {
-    align: "center",
-  });
+  doc.text("11o Encuentro Internacional", pageWidth / 2, 22, { align: "center" });
   doc.setFontSize(20);
   doc.text("de Poetas del Cupatitzio", pageWidth / 2, 32, { align: "center" });
-
-  // Date
   doc.setTextColor(...accent);
   doc.setFontSize(14);
   doc.setFont("helvetica", "bold");
-  doc.text("26, 27 y 28 de Febrero 2026", pageWidth / 2, 44, {
-    align: "center",
-  });
-
-  // Location
+  doc.text("26, 27 y 28 de Febrero 2026", pageWidth / 2, 44, { align: "center" });
   doc.setTextColor(180, 180, 180);
   doc.setFontSize(10);
-  doc.text("Uruapan, Michoacan, Mexico", pageWidth / 2, 52, {
-    align: "center",
-  });
+  doc.text("Uruapan, Michoacan, Mexico", pageWidth / 2, 52, { align: "center" });
 
-  // Sede box
   currentY = 65;
   doc.setFillColor(...lightGray);
   doc.roundedRect(margin, currentY, contentWidth, 14, 3, 3, "F");
   doc.setDrawColor(...accent);
   doc.setLineWidth(0.5);
   doc.roundedRect(margin, currentY, contentWidth, 14, 3, 3, "S");
-
   doc.setTextColor(...primary);
   doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
-  doc.text(
-    "SEDE: CENTRO CULTURAL FABRICA DE SAN PEDRO",
-    pageWidth / 2,
-    currentY + 6,
-    { align: "center" },
-  );
+  doc.text("SEDE: CENTRO CULTURAL FABRICA DE SAN PEDRO", pageWidth / 2, currentY + 6, { align: "center" });
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...secondary);
-  doc.text(
-    "Miguel Trevino 100, Col. Centro, Uruapan, Michoacan",
-    pageWidth / 2,
-    currentY + 11,
-    { align: "center" },
-  );
+  doc.text("Miguel Trevino 100, Col. Centro, Uruapan, Michoacan", pageWidth / 2, currentY + 11, { align: "center" });
 
   currentY = 85;
 
-  // DAY 1
-  drawDayHeader(26, "Jueves", "Febrero 2026");
-  drawVenueBar(
-    "GRAN NAVE (Sala de Exposiciones) - Planta Principal",
-    "Sesion Vespertina",
-  );
+  // ===== RENDER PROGRAM =====
+  for (const day of programData) {
+    // Check if day header + first session fit, otherwise new page
+    const firstSessionHeight = day.sessions.length > 0 ? calcSessionHeight(day.sessions[0]) : 0;
+    ensureSpace(20 + firstSessionHeight);
 
-  drawEvent(
-    "16:30",
-    "Recepcion y Registro de Participantes",
-    "Entrega de antologias 2025-2026",
-    "registro",
-  );
-  drawEvent(
-    "17:00",
-    "Inauguracion Oficial",
-    "Ceremonia de apertura del 11o Encuentro",
-    "inauguracion",
-  );
-  drawEvent("17:15", "Presentacion Musical", "", "musica");
-  drawEvent("17:45", "Mesa de Lectura 01", "", "lectura");
-  drawEvent(
-    "18:15",
-    "In Memoriam: Sandra Morales Vazquez",
-    "Lectura de poemas por Laura Ramos",
-    "memoriam",
-  );
-  drawEvent(
-    "18:30",
-    "In Memoriam: Raul Rios Romero",
-    "Lectura de poemas por Jesus Garcia",
-    "memoriam",
-  );
-  drawEvent("18:45", "Mesa de Lectura 02", "", "lectura");
-  drawEvent("19:15", "Cierre de la Jornada Vespertina", "", "cierre");
+    drawDayHeader(day.dayNum, day.dayName);
 
-  currentY += 6;
+    for (let i = 0; i < day.sessions.length; i++) {
+      const session = day.sessions[i];
+      const sessionHeight = calcSessionHeight(session);
 
-  // DAY 2 - Morning
-  drawDayHeader(27, "Viernes", "Febrero 2026");
-  drawVenueBar("CRUJIA 6 - Area Posterior", "Sesion Matutina");
+      // If session doesn't fit, start new page
+      ensureSpace(sessionHeight);
 
-  drawEvent("10:00", "Recepcion y Registro de Participantes", "", "registro");
-  drawEvent("10:30", "Apertura de Programa", "", "apertura");
-  drawEvent(
-    "10:35",
-    "Presentacion de Antologia Poetica",
-    "Universidad Don Vasco - Francisco Javier Ramos Ruiz",
-    "presentacion",
-  );
-  drawEvent("10:55", "Mesa de Lectura 03", "", "lectura");
-  drawEvent("11:25", "Mesa de Lectura 04", "", "lectura");
-  drawEvent("11:55", "RECESO", "", "receso");
-  drawEvent(
-    "12:10",
-    "In Memoriam: Francisco Javier Licea Linares",
-    "",
-    "memoriam",
-  );
-  drawEvent("12:25", "Mesa de Lectura 05", "", "lectura");
+      if (session.divider) {
+        drawSessionDivider(session.divider);
+      }
 
-  addFooter(1);
+      drawVenueBar(session.venue, session.sessionLabel);
 
-  // ===== PAGE 2 =====
-  doc.addPage();
-  addSmallHeader();
-  currentY = 20;
+      for (const ev of session.events) {
+        // Individual events don't force page breaks mid-session
+        drawEvent(ev.time, ev.title, ev.desc, ev.type);
+      }
 
-  drawEvent(
-    "12:55",
-    "In Memoriam: Jose Luis Calderon Vela",
-    "Red de Tertulias Guanajuato - Josue Fernando Morales",
-    "memoriam",
-  );
-  drawEvent("13:15", "Mesa de Lectura 06", "", "lectura");
-  drawEvent(
-    "13:45",
-    "Cierre Sesion Matutina - Receso para Comida",
-    "",
-    "receso",
-  );
+      currentY += 4;
+    }
 
-  currentY += 4;
-  drawSessionDivider("SESION VESPERTINA");
-
-  drawVenueBar("CRUJIA 6 - Area Posterior", "Sesion Vespertina");
-
-  drawEvent("16:00", "Recepcion y Registro de Participantes", "", "registro");
-  drawEvent("16:15", "Bienvenida", "", "apertura");
-  drawEvent("16:20", "Mesa de Lectura 07", "", "lectura");
-  drawEvent("16:50", "Mesa de Lectura 08", "", "lectura");
-  drawEvent(
-    "17:20",
-    "In Memoriam: Guadalupe Trigueros",
-    "Por Yuritskiri Campos Anguiano",
-    "memoriam",
-  );
-  drawEvent("17:50", "Mesa de Lectura 09", "", "lectura");
-  drawEvent(
-    "18:20",
-    "In Memoriam: Gracia Mendoza Bolio",
-    "Por Dra. Maria Concepcion Ramirez Samano",
-    "memoriam",
-  );
-  drawEvent(
-    "18:40",
-    "Traslado de Participantes a la Gran Nave",
-    "",
-    "traslado",
-  );
-
-  currentY += 4;
-  drawVenueBar("GRAN NAVE (Sala de Exposiciones)", "");
-
-  drawEvent("18:40", "Presentacion Musical", "", "musica");
-  drawEvent(
-    "19:00",
-    "Conferencia Magistral",
-    "Michel Foucault y la Literatura Moderna - Dra. Rosario Herrera Guido",
-    "conferencia",
-  );
-  drawEvent("19:50", "Cierre de la Jornada", "", "cierre");
-
-  currentY += 6;
-
-  // DAY 3 - Morning
-  drawDayHeader(28, "Sabado", "Febrero 2026");
-  drawVenueBar("CRUJIA 6 - Area Posterior", "Sesion Matutina");
-
-  drawEvent("10:00", "Recepcion y Registro de Participantes", "", "registro");
-  drawEvent("10:15", "Apertura", "", "apertura");
-  drawEvent("10:20", "Mesa de Lectura 10", "", "lectura");
-  drawEvent("10:50", "Mesa de Lectura 11", "", "lectura");
-  drawEvent(
-    "11:20",
-    'Antologia "Vuelo de la Palabra por la Paz"',
-    "Academia Nacional e Internacional de la Poesia - SMGE Michoacan",
-    "presentacion",
-  );
-
-  addFooter(2);
-
-  // ===== PAGE 3 =====
-  doc.addPage();
-  addSmallHeader();
-  currentY = 20;
-
-  drawEvent("11:40", "Mesa de Lectura 12", "", "lectura");
-  drawEvent(
-    "12:10",
-    "Mesa de Lectura - Asociacion Red Nemesis",
-    "Presentada por Juan Contreras",
-    "lectura",
-  );
-  drawEvent(
-    "12:30",
-    "In Memoriam: Marco Antonio Herrera Guido",
-    "Por Rosario Herrera Guido",
-    "memoriam",
-  );
-  drawEvent("12:45", "Mesa de Lectura 13", "", "lectura");
-  drawEvent("13:15", "Mesa de Lectura 14", "", "lectura");
-  drawEvent(
-    "13:45",
-    "Grupo de Danza THIPIKUARETA PURHEMBE",
-    "Riqueza Purepecha",
-    "danza",
-  );
-  drawEvent("14:15", "Receso para Comida", "", "receso");
-
-  currentY += 4;
-  drawSessionDivider("SESION VESPERTINA");
-
-  drawVenueBar("GRAN NAVE (Sala de Exposiciones)", "Sesion Vespertina");
-
-  drawEvent("16:00", "Recepcion y Registro de Participantes", "", "registro");
-  drawEvent("16:30", "Mesa de Lectura 15", "", "lectura");
-  drawEvent("17:00", "Mesa de Lectura 16", "", "lectura");
-  drawEvent("17:30", "Mesa de Lectura 17", "", "lectura");
-  drawEvent("18:00", "Mesa de Lectura 18", "", "lectura");
-  drawEvent("18:30", "Mesa de Lectura 19", "", "lectura");
-  drawEvent("19:00", "Presentacion Musical", "", "musica");
-  drawEvent("19:20", "Fotografia Oficial", "", "foto");
-  drawEvent(
-    "19:25",
-    "CLAUSURA DEL EVENTO",
-    "Ceremonia de cierre del 11o Encuentro Internacional de Poetas",
-    "clausura",
-  );
+    currentY += 4;
+  }
 
   // Final quote box
-  currentY += 8;
+  ensureSpace(30);
+  currentY += 4;
   doc.setFillColor(...lightGray);
   doc.roundedRect(margin, currentY, contentWidth, 20, 3, 3, "F");
   doc.setDrawColor(...accent);
   doc.roundedRect(margin, currentY, contentWidth, 20, 3, 3, "S");
-
   doc.setTextColor(...primary);
   doc.setFontSize(11);
   doc.setFont("helvetica", "italic");
-  doc.text('"Donde hay poesia, hay esperanza"', pageWidth / 2, currentY + 9, {
-    align: "center",
-  });
-
+  doc.text('"Donde hay poesia, hay esperanza"', pageWidth / 2, currentY + 9, { align: "center" });
   doc.setFontSize(7);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...secondary);
-  doc.text(
-    "(c) 2026 - 11o Encuentro Internacional de Poetas del Cupatitzio",
-    pageWidth / 2,
-    currentY + 15,
-    { align: "center" },
-  );
+  doc.text("(c) 2026 - 11o Encuentro Internacional de Poetas del Cupatitzio", pageWidth / 2, currentY + 15, { align: "center" });
 
-  addFooter(3);
+  addFooter();
 
   // Save the PDF
   doc.save("Programa_11o_Encuentro_Poetas_Cupatitzio_2026.pdf");
