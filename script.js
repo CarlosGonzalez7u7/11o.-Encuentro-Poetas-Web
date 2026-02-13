@@ -1035,7 +1035,7 @@ async function generateProgramPDF() {
     doc.setFontSize(6);
     doc.setFont("helvetica", "italic");
     doc.text(
-      '"La poesía es el eco de la melodía del universo en el corazón de los humanos"',
+      '"«La poesía es el eco de la melodía del universo en el corazón de los humanos». Rabindranath Tagore"',
       pageWidth / 2,
       pageHeight - 10,
       { align: "center" },
@@ -1234,6 +1234,12 @@ async function generateProgramPDF() {
               type: "inauguracion",
             },
             {
+              time: "17:05",
+              title: "Presentación de la Antología del Encuentro",
+              desc: "Antología Poetas del Cupatitzio 2025-2026",
+              type: "presentacion",
+            },
+            {
               time: "17:15",
               title: "Presentación Musical",
               desc: "",
@@ -1316,7 +1322,7 @@ async function generateProgramPDF() {
             {
               time: "12:10",
               title: "In Memoriam: Francisco Javier Licea Linares",
-              desc: "",
+              desc: "Lectura de poemas por Martín Paz",
               type: "memoriam",
             },
             {
@@ -1372,7 +1378,7 @@ async function generateProgramPDF() {
             {
               time: "17:20",
               title: "In Memoriam: Guadalupe Trigueros",
-              desc: "Por Yuritskiri Campos Anguiano",
+              desc: "Lectura de poemas por Yuritskiri Campos Anguiano",
               type: "memoriam",
             },
             {
@@ -1384,7 +1390,7 @@ async function generateProgramPDF() {
             {
               time: "18:20",
               title: "In Memoriam: Gracia Mendoza Bolio",
-              desc: "Por Dra. Maria Concepcion Ramirez Samano",
+              desc: "Lectura de poemas por Dra. María Concepción Ramírez Sámano",
               type: "memoriam",
             },
             {
@@ -1463,7 +1469,7 @@ async function generateProgramPDF() {
             },
             {
               time: "12:10",
-              title: "Mesa de Lectura - Asociacion Red Nemesis",
+              title: "Mesa de Lectura - Asociación Red Némesis",
               desc: "Presentada por Juan Contreras",
               type: "lectura",
             },
