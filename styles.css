@@ -1400,6 +1400,124 @@ button {
   margin-top: 0.75rem;
 }
 
+/* ---- 12c. Equipo Organizador ---- */
+.equipo-section {
+  background: var(--bg-alt);
+}
+.equipo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 2rem auto 0;
+}
+.equipo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.equipo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+}
+.equipo-card-org::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+}
+.equipo-card-tech::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+.equipo-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(212, 165, 116, 0.15);
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.equipo-badge-tech {
+  background: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+}
+.equipo-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  margin: 0 auto 1rem;
+  display: block;
+  transition: var(--transition);
+}
+.equipo-card:hover .equipo-img {
+  border-color: var(--accent-hover);
+  transform: scale(1.05);
+}
+.equipo-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--fg);
+  margin-bottom: 0.25rem;
+}
+.equipo-role {
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  margin-bottom: 1rem;
+}
+.equipo-thank-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.2rem;
+  border: 2px solid #e74c3c;
+  background: transparent;
+  color: #e74c3c;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.equipo-thank-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.35);
+}
+.equipo-thank-btn.thanked {
+  background: #e74c3c;
+  color: #fff;
+  border-color: #e74c3c;
+}
+.equipo-thanks-counter {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  opacity: 0.8;
+}
+
 /* ---- 13. Back to Top ---- */
 .back-to-top {
   position: fixed;
@@ -1940,6 +2058,21 @@ button {
   .footer-quote {
     font-size: 0.95rem;
   }
+
+  .equipo-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .equipo-img {
+    width: 85px;
+    height: 85px;
+  }
+  .equipo-name {
+    font-size: 0.95rem;
+  }
+  .equipo-role {
+    font-size: 0.78rem;
+  }
 }
 
 /* ---- 17. Very small screens ---- */
@@ -1962,6 +2095,18 @@ button {
   .poet-image {
     width: 65px;
     height: 65px;
+  }
+
+  .equipo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .equipo-card {
+    padding: 1.25rem 0.75rem;
+  }
+  .equipo-img {
+    width: 70px;
+    height: 70px;
   }
 }
 
@@ -2902,6 +3047,23 @@ button {
 [data-theme="dark"] .mesa-result-none {
   background: var(--card);
   color: var(--text-light);
+}
+
+[data-theme="dark"] .equipo-card {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .equipo-card:hover {
+  border-color: var(--accent);
+}
+
+[data-theme="dark"] .equipo-badge {
+  background: rgba(212, 165, 116, 0.2);
+}
+
+[data-theme="dark"] .equipo-badge-tech {
+  background: rgba(59, 130, 246, 0.2);
 }
 
 [data-theme="dark"] .programa-event .event-details .ponente {
