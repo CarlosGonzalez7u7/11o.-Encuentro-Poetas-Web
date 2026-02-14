@@ -1304,6 +1304,17 @@ button {
   gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  align-items: center;
+}
+.share-cta {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.02em;
 }
 .share-buttons-sm {
   gap: 0.35rem;

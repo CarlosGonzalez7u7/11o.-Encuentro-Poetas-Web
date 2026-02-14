@@ -714,12 +714,29 @@ function generateShareCard(poetName, mesaInfo) {
     ctx.lineTo(W - 100, 95);
     ctx.stroke();
 
-    // Load poet image
+    // Load poet image with .jpg -> .png -> avatar fallback
     var img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = finishCard;
-    img.onerror = finishCard;
-    img.src = getPoetImageSrc(poetName);
+    var poetSrcs = [
+      getPoetImageSrc(poetName),
+      getFallbackImageSrc(poetName),
+      getAvatarSrc(poetName),
+    ];
+    var poetTried = 0;
+    function tryLoadPoetImg() {
+      if (poetTried >= poetSrcs.length) {
+        finishCard();
+        return;
+      }
+      img = new Image();
+      img.onload = finishCard;
+      img.onerror = function () {
+        poetTried++;
+        tryLoadPoetImg();
+      };
+      img.src = poetSrcs[poetTried];
+      poetTried++;
+    }
+    tryLoadPoetImg();
 
     function finishCard() {
       // Poet photo (circle)
@@ -794,6 +811,192 @@ function generateShareCard(poetName, mesaInfo) {
   });
 }
 
+// Generate a shareable GROUP mesa card with all poet photos
+function generateMesaShareCard(mesaNumber, dayLabel, time, poetNames) {
+  return new Promise(function (resolve) {
+    var W = 800;
+    var cols = Math.min(poetNames.length, 4);
+    if (cols === 0) cols = 1;
+    var rows = Math.ceil(poetNames.length / cols);
+    var photoSize = 72;
+    var cellW = 175;
+    var cellH = photoSize + 34;
+    var headerH = 200;
+    var gridH = rows * cellH + 10;
+    var footerH = 80;
+    var H = headerH + gridH + footerH;
+    var canvas = document.createElement("canvas");
+    canvas.width = W;
+    canvas.height = H;
+    var ctx = canvas.getContext("2d");
+
+    // Background
+    var grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, "#1a1a2e");
+    grad.addColorStop(0.5, "#16213e");
+    grad.addColorStop(1, "#0f3460");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    var accentGrad = ctx.createLinearGradient(0, 0, W, 0);
+    accentGrad.addColorStop(0, "#d4a574");
+    accentGrad.addColorStop(1, "#c9956b");
+    ctx.fillStyle = accentGrad;
+    ctx.fillRect(0, 0, W, 6);
+
+    // Title
+    ctx.fillStyle = "#d4a574";
+    ctx.font = "bold 20px Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText(
+      "11\u00b0 Encuentro Internacional de Poetas del Cupatitzio",
+      W / 2,
+      48,
+    );
+
+    ctx.fillStyle = "rgba(212,165,116,0.7)";
+    ctx.font = "14px Georgia, serif";
+    ctx.fillText(
+      "26, 27 y 28 de Febrero 2026 \u2014 Uruapan, Michoac\u00e1n",
+      W / 2,
+      72,
+    );
+
+    // Divider
+    ctx.strokeStyle = "rgba(212,165,116,0.3)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(120, 90);
+    ctx.lineTo(W - 120, 90);
+    ctx.stroke();
+
+    // Mesa title
+    ctx.fillStyle = "#faf8f5";
+    ctx.font = "bold 26px Georgia, serif";
+    ctx.fillText("Mesa de Lectura " + mesaNumber, W / 2, 125);
+
+    ctx.fillStyle = "rgba(250,248,245,0.8)";
+    ctx.font = "17px Georgia, serif";
+    ctx.fillText(dayLabel + "  \u2022  " + time, W / 2, 155);
+
+    // Participants label
+    ctx.fillStyle = "#d4a574";
+    ctx.font = "bold 14px Georgia, serif";
+    ctx.fillText("Poetas participantes", W / 2, 185);
+
+    // Load all poet images (no crossOrigin — same origin on GitHub Pages)
+    var images = [];
+    var loaded = 0;
+
+    function loadImage(idx) {
+      var srcs = [
+        getPoetImageSrc(poetNames[idx]),
+        getFallbackImageSrc(poetNames[idx]),
+        getAvatarSrc(poetNames[idx]),
+      ];
+      var tried = 0;
+      function tryNext() {
+        if (tried >= srcs.length) {
+          images[idx] = null;
+          loaded++;
+          if (loaded >= poetNames.length) onAllLoaded();
+          return;
+        }
+        var img = new Image();
+        images[idx] = img;
+        img.onload = function () {
+          loaded++;
+          if (loaded >= poetNames.length) onAllLoaded();
+        };
+        img.onerror = function () {
+          tryNext();
+        };
+        img.src = srcs[tried];
+        tried++;
+      }
+      tryNext();
+    }
+
+    function onAllLoaded() {
+      for (var i = 0; i < poetNames.length; i++) {
+        var col = i % cols;
+        var row = Math.floor(i / cols);
+        var itemsInRow = Math.min(cols, poetNames.length - row * cols);
+        var rowW = itemsInRow * cellW;
+        var offsetX = (W - rowW) / 2;
+        var cx = offsetX + col * cellW + cellW / 2;
+        var cy = headerH + row * cellH + photoSize / 2;
+        var r = photoSize / 2;
+
+        // Circle photo
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        var img = images[i];
+        if (img && img.complete && img.naturalWidth > 0) {
+          ctx.drawImage(img, cx - r, cy - r, photoSize, photoSize);
+        } else {
+          ctx.fillStyle = "#d4a574";
+          ctx.fillRect(cx - r, cy - r, photoSize, photoSize);
+          ctx.fillStyle = "#1a1a2e";
+          ctx.font = "bold 28px Georgia, serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(poetNames[i].charAt(0).toUpperCase(), cx, cy);
+        }
+        ctx.restore();
+
+        // Border
+        ctx.strokeStyle = "#d4a574";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r + 1, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Name below photo — truncate with measureText to fit cell
+        ctx.fillStyle = "rgba(250,248,245,0.9)";
+        ctx.font = "11px Georgia, serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        var name = poetNames[i];
+        var maxTxtW = cellW - 14;
+        while (ctx.measureText(name).width > maxTxtW && name.length > 5) {
+          name = name.substring(0, name.length - 2);
+        }
+        if (name !== poetNames[i]) name += "\u2026";
+        ctx.fillText(name, cx, cy + r + 5);
+      }
+
+      // Bottom
+      ctx.fillStyle = "rgba(250,248,245,0.5)";
+      ctx.font = "13px Georgia, serif";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        "Centro Cultural F\u00e1brica de San Pedro, Uruapan",
+        W / 2,
+        H - 50,
+      );
+
+      ctx.fillStyle = accentGrad;
+      ctx.fillRect(0, H - 6, W, 6);
+      ctx.fillStyle = "rgba(212,165,116,0.5)";
+      ctx.font = "11px Georgia, serif";
+      ctx.fillText(SITE_URL, W / 2, H - 18);
+
+      canvas.toBlob(function (blob) {
+        resolve(blob);
+      }, "image/png");
+    }
+
+    for (var i = 0; i < poetNames.length; i++) {
+      loadImage(i);
+    }
+    if (poetNames.length === 0) onAllLoaded();
+  });
+}
+
 // Share with image via Web Share API, fallback to text-only
 async function shareWithCard(poetName, mesaInfo, text) {
   if (navigator.share && navigator.canShare) {
@@ -813,22 +1016,67 @@ async function shareWithCard(poetName, mesaInfo, text) {
         return;
       }
     } catch (err) {
-      if (err.name === "AbortError") return; // user cancelled
+      if (err.name === "AbortError") return;
     }
   }
-  // Fallback: text-only WhatsApp
   shareOnWhatsApp(text);
 }
 
+// Share mesa group card with image
+async function shareWithMesaCard(mesaNumber, dayLabel, time, poetNames, text) {
+  if (navigator.share && navigator.canShare) {
+    try {
+      var blob = await generateMesaShareCard(
+        mesaNumber,
+        dayLabel,
+        time,
+        poetNames,
+      );
+      var file = new File([blob], "mesa-" + mesaNumber + ".png", {
+        type: "image/png",
+      });
+      var shareData = {
+        text: text + "\n" + SITE_URL,
+        files: [file],
+      };
+      if (navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+        return;
+      }
+    } catch (err) {
+      if (err.name === "AbortError") return;
+    }
+  }
+  shareOnWhatsApp(text);
+}
+
+var WA_SVG =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+var FB_SVG =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
+
 function createShareButtons(whatsappText, size, poetName, mesaInfo) {
   size = size || "normal";
-  const wrap = document.createElement("div");
-  wrap.className = `share-buttons ${size === "small" ? "share-buttons-sm" : ""}`;
+  var isMesa = !poetName && !mesaInfo;
+  var wrap = document.createElement("div");
+  wrap.className =
+    "share-buttons " + (size === "small" ? "share-buttons-sm" : "");
 
-  const waBtn = document.createElement("button");
+  // CTA label above buttons (only for normal size)
+  if (size === "normal") {
+    var cta = document.createElement("span");
+    cta.className = "share-cta";
+    cta.textContent = poetName
+      ? "¡Comparte que participas!"
+      : "¡Comparte esta mesa!";
+    wrap.appendChild(cta);
+  }
+
+  var waBtn = document.createElement("button");
   waBtn.className = "share-btn share-btn-wa";
   waBtn.setAttribute("aria-label", "Compartir en WhatsApp");
-  waBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>${size === "small" ? "" : " WhatsApp"}`;
+  var waLabel = size === "small" ? "" : " ¡Yo participo!";
+  waBtn.innerHTML = WA_SVG + waLabel;
   waBtn.addEventListener("click", function (e) {
     e.stopPropagation();
     if (poetName) {
@@ -838,10 +1086,50 @@ function createShareButtons(whatsappText, size, poetName, mesaInfo) {
     }
   });
 
-  const fbBtn = document.createElement("button");
+  var fbBtn = document.createElement("button");
   fbBtn.className = "share-btn share-btn-fb";
   fbBtn.setAttribute("aria-label", "Compartir en Facebook");
-  fbBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>${size === "small" ? "" : " Facebook"}`;
+  var fbLabel = size === "small" ? "" : " Compartir";
+  fbBtn.innerHTML = FB_SVG + fbLabel;
+  fbBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    shareOnFacebook();
+  });
+
+  wrap.appendChild(waBtn);
+  wrap.appendChild(fbBtn);
+  return wrap;
+}
+
+// Create share buttons for mesa (group card)
+function createMesaShareButtons(
+  mesaNumber,
+  dayLabel,
+  time,
+  poetNames,
+  whatsappText,
+) {
+  var wrap = document.createElement("div");
+  wrap.className = "share-buttons";
+
+  var cta = document.createElement("span");
+  cta.className = "share-cta";
+  cta.textContent = "¡Comparte esta mesa!";
+  wrap.appendChild(cta);
+
+  var waBtn = document.createElement("button");
+  waBtn.className = "share-btn share-btn-wa";
+  waBtn.setAttribute("aria-label", "Compartir mesa en WhatsApp");
+  waBtn.innerHTML = WA_SVG + " ¡Compartir mesa!";
+  waBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    shareWithMesaCard(mesaNumber, dayLabel, time, poetNames, whatsappText);
+  });
+
+  var fbBtn = document.createElement("button");
+  fbBtn.className = "share-btn share-btn-fb";
+  fbBtn.setAttribute("aria-label", "Compartir en Facebook");
+  fbBtn.innerHTML = FB_SVG + " Compartir";
   fbBtn.addEventListener("click", function (e) {
     e.stopPropagation();
     shareOnFacebook();
@@ -962,7 +1250,15 @@ function renderMesas(dayNumber) {
       mesa.poets,
     );
     const shareBar = card.querySelector(`#mesa-share-${mesa.number}`);
-    shareBar.appendChild(createShareButtons(mesaShareText));
+    shareBar.appendChild(
+      createMesaShareButtons(
+        mesa.number,
+        dayData.dayLabel,
+        mesa.time,
+        mesa.poets,
+        mesaShareText,
+      ),
+    );
 
     const mesaInfoForPoets = { mesa, day: dayData };
     const poetsGrid = card.querySelector(`#mesa-poets-${mesa.number}`);
