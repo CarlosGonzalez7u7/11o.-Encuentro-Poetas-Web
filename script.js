@@ -965,9 +965,15 @@ async function generateProgramPDF() {
   }
 
   // Load logos for the PDF
-  const [logoPoetas, logoCCFS] = await Promise.all([
+  const [logoPoetas, logoCCFS, qrFacebook, qrWeb] = await Promise.all([
     loadImageAsCircular("img/PoetasCupa.png"),
     loadImageAsBase64("img/CCFS.png"),
+    loadImageAsBase64(
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fg%2F1JSvw8dcov%2F",
+    ),
+    loadImageAsBase64(
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https%3A%2F%2Fcarlosgonzalez7u7.github.io%2F11o.-Encuentro-Poetas-Web%2F",
+    ),
   ]);
 
   const { jsPDF } = window.jspdf;
@@ -1457,8 +1463,8 @@ async function generateProgramPDF() {
             },
             {
               time: "11:20",
-              title: 'Antologia "Vuelo de la Palabra por la Paz"',
-              desc: "Academia Nacional e Internacional de la Poesía - SMGE Michoacan",
+              title: 'Presentación de Antología "Quinta Luna"',
+              desc: "Presenta Maribel Arreola Rivas",
               type: "presentacion",
             },
             {
@@ -1549,7 +1555,7 @@ async function generateProgramPDF() {
             {
               time: "19:00",
               title: "Presentación Musical",
-              desc: "",
+              desc: "Cantante: Nayel Montufar",
               type: "musica",
             },
             {
@@ -1800,6 +1806,230 @@ async function generateProgramPDF() {
 
   addFooter();
 
+  // ===== VIRTUAL TRANSMISSION + QR CODES PAGE =====
+  doc.addPage();
+  pageNum++;
+  addSmallHeader();
+  currentY = 22;
+
+  // Virtual Transmission Header
+  doc.setFillColor(...primary);
+  doc.roundedRect(margin, currentY, contentWidth, 18, 3, 3, "F");
+  doc.setTextColor(...white);
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.text("TRANSMISION VIRTUAL", pageWidth / 2, currentY + 8, {
+    align: "center",
+  });
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...accent);
+  doc.text(
+    "Domingo 1 de Marzo, 2026 - 9:00 hrs (Horario de Mexico)",
+    pageWidth / 2,
+    currentY + 14,
+    { align: "center" },
+  );
+  currentY += 24;
+
+  // Virtual info box
+  doc.setFillColor(240, 248, 255);
+  doc.roundedRect(margin, currentY, contentWidth, 30, 3, 3, "F");
+  doc.setDrawColor(...blue);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(margin, currentY, contentWidth, 30, 3, 3, "S");
+  doc.setFillColor(...blue);
+  doc.rect(margin, currentY, 3, 30, "F");
+
+  doc.setTextColor(...primary);
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold");
+  doc.text("Transmision de Videos del Encuentro", margin + 8, currentY + 8);
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(60, 60, 60);
+  doc.text(
+    "El domingo 1 de marzo se realizara la transmision de los videos del",
+    margin + 8,
+    currentY + 14,
+  );
+  doc.text(
+    "11o Encuentro Internacional de Poetas del Cupatitzio por via virtual,",
+    margin + 8,
+    currentY + 19,
+  );
+  doc.text(
+    "a partir de las 9:00 horas (horario de Mexico).",
+    margin + 8,
+    currentY + 24,
+  );
+  currentY += 36;
+
+  // Facebook group info
+  doc.setFillColor(248, 245, 255);
+  doc.roundedRect(margin, currentY, contentWidth, 16, 3, 3, "F");
+  doc.setDrawColor(66, 103, 178);
+  doc.roundedRect(margin, currentY, contentWidth, 16, 3, 3, "S");
+  doc.setFillColor(66, 103, 178);
+  doc.rect(margin, currentY, 3, 16, "F");
+  doc.setTextColor(66, 103, 178);
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "bold");
+  doc.text(
+    "Grupo de Facebook: Poetas del Cupatitzio",
+    margin + 8,
+    currentY + 7,
+  );
+  doc.setFontSize(7);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(80, 80, 80);
+  doc.text(
+    "https://www.facebook.com/share/g/1JSvw8dcov/",
+    margin + 8,
+    currentY + 12,
+  );
+  currentY += 24;
+
+  // QR Codes section
+  doc.setTextColor(...primary);
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  doc.text("Codigos QR", pageWidth / 2, currentY, { align: "center" });
+  currentY += 4;
+  doc.setDrawColor(...accent);
+  doc.setLineWidth(0.5);
+  doc.line(pageWidth / 2 - 30, currentY, pageWidth / 2 + 30, currentY);
+  currentY += 8;
+
+  const qrSize = 50;
+  const qrGap = 20;
+  const qrStartX1 = pageWidth / 2 - qrSize - qrGap / 2;
+  const qrStartX2 = pageWidth / 2 + qrGap / 2;
+
+  // QR 1 - Facebook
+  doc.setFillColor(...lightGray);
+  doc.roundedRect(
+    qrStartX1 - 5,
+    currentY - 3,
+    qrSize + 10,
+    qrSize + 28,
+    3,
+    3,
+    "F",
+  );
+  doc.setDrawColor(...accent);
+  doc.roundedRect(
+    qrStartX1 - 5,
+    currentY - 3,
+    qrSize + 10,
+    qrSize + 28,
+    3,
+    3,
+    "S",
+  );
+  if (qrFacebook) {
+    try {
+      doc.addImage(qrFacebook, "PNG", qrStartX1, currentY, qrSize, qrSize);
+    } catch (e) {}
+  }
+  doc.setTextColor(...primary);
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "bold");
+  doc.text("Grupo de Facebook", qrStartX1 + qrSize / 2, currentY + qrSize + 6, {
+    align: "center",
+  });
+  doc.setFontSize(6);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...secondary);
+  doc.text(
+    "Poetas del Cupatitzio",
+    qrStartX1 + qrSize / 2,
+    currentY + qrSize + 11,
+    { align: "center" },
+  );
+  doc.text(
+    "Escanea para unirte",
+    qrStartX1 + qrSize / 2,
+    currentY + qrSize + 16,
+    { align: "center" },
+  );
+
+  // QR 2 - Web Page
+  doc.setFillColor(...lightGray);
+  doc.roundedRect(
+    qrStartX2 - 5,
+    currentY - 3,
+    qrSize + 10,
+    qrSize + 28,
+    3,
+    3,
+    "F",
+  );
+  doc.setDrawColor(...accent);
+  doc.roundedRect(
+    qrStartX2 - 5,
+    currentY - 3,
+    qrSize + 10,
+    qrSize + 28,
+    3,
+    3,
+    "S",
+  );
+  if (qrWeb) {
+    try {
+      doc.addImage(qrWeb, "PNG", qrStartX2, currentY, qrSize, qrSize);
+    } catch (e) {}
+  }
+  doc.setTextColor(...primary);
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "bold");
+  doc.text(
+    "Pagina del Encuentro",
+    qrStartX2 + qrSize / 2,
+    currentY + qrSize + 6,
+    { align: "center" },
+  );
+  doc.setFontSize(6);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...secondary);
+  doc.text(
+    "Programa completo en linea",
+    qrStartX2 + qrSize / 2,
+    currentY + qrSize + 11,
+    { align: "center" },
+  );
+  doc.text(
+    "Escanea para visitar",
+    qrStartX2 + qrSize / 2,
+    currentY + qrSize + 16,
+    { align: "center" },
+  );
+
+  currentY += qrSize + 34;
+
+  // Final note
+  doc.setFillColor(...lightGray);
+  doc.roundedRect(margin, currentY, contentWidth, 14, 3, 3, "F");
+  doc.setDrawColor(...accent);
+  doc.roundedRect(margin, currentY, contentWidth, 14, 3, 3, "S");
+  doc.setTextColor(...primary);
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "italic");
+  doc.text('"Donde hay Poesia, hay esperanza"', pageWidth / 2, currentY + 6, {
+    align: "center",
+  });
+  doc.setFontSize(6);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...secondary);
+  doc.text(
+    "(c) 2026 - 11o Encuentro Internacional de Poetas del Cupatitzio",
+    pageWidth / 2,
+    currentY + 11,
+    { align: "center" },
+  );
+
+  addFooter();
+
   // Save the PDF
   doc.save("Programa_11o_Encuentro_Poetas_Cupatitzio_2026.pdf");
 
@@ -1817,8 +2047,45 @@ function loadScript(src) {
   });
 }
 
+// ---- DARK MODE ----
+function initDarkMode() {
+  const toggle = document.getElementById("darkModeToggle");
+  if (!toggle) return;
+
+  // Check saved preference or system preference
+  const saved = localStorage.getItem("theme");
+  if (saved) {
+    document.documentElement.setAttribute("data-theme", saved);
+  } else if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
+
+  toggle.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  });
+
+  // Listen for system preference changes
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      if (!localStorage.getItem("theme")) {
+        document.documentElement.setAttribute(
+          "data-theme",
+          e.matches ? "dark" : "light",
+        );
+      }
+    });
+}
+
 // ---- INITIALIZE EVERYTHING ----
 document.addEventListener("DOMContentLoaded", () => {
+  initDarkMode();
   initCountdown();
   initParticles();
   initNavigation();

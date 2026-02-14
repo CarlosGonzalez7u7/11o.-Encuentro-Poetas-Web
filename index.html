@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>11º Encuentro Poetas del Cupatitzio 2026</title>
+    <title>11º Encuentro Internacional Poetas del Cupatitzio 2026</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="img/PoetasCupa.ico" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,10 +21,47 @@
         </a>
         <div class="nav-links" id="navLinks">
           <a href="#inicio" class="nav-link">Inicio</a>
+          <a href="#virtual" class="nav-link">Virtual</a>
           <a href="#programa" class="nav-link">Programa</a>
           <a href="#mesas" class="nav-link">Mesas</a>
           <a href="#antologia" class="nav-link">Antología</a>
         </div>
+        <button
+          class="dark-mode-toggle"
+          id="darkModeToggle"
+          aria-label="Cambiar tema"
+        >
+          <svg
+            class="icon-sun"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <svg
+            class="icon-moon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
         <button class="nav-toggle" id="navToggle" aria-label="Menú">
           <span></span><span></span><span></span>
         </button>
@@ -49,7 +86,7 @@
         <h1 class="hero-title">
           <span class="hero-title-line animate-title-1">11º Encuentro</span>
           <span class="hero-title-line animate-title-2"
-            >Poetas del Cupatitzio</span
+            >Internacional Poetas del Cupatitzio</span
           >
         </h1>
         <p class="hero-quote animate-fade-up">
@@ -137,6 +174,90 @@
               <strong>Antología</strong>
               <span>2025-2026</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TRANSMISIÓN VIRTUAL ========== -->
+    <section class="section virtual-section" id="virtual">
+      <div class="container">
+        <h2 class="section-title reveal">Transmisión Virtual</h2>
+        <p class="section-subtitle reveal">
+          Domingo 1 de Marzo, 2026 &mdash; 9:00 hrs (Horario de México)
+        </p>
+
+        <div class="virtual-card reveal">
+          <div class="virtual-info">
+            <div class="virtual-icon">📺</div>
+            <div class="virtual-details">
+              <h3>Transmisión de Videos del Encuentro</h3>
+              <p>
+                El domingo 1 de marzo se realizará la transmisión de los videos
+                de los participantes via virtual que no pudieron asistir de
+                manera presencial al 11º Encuentro Internacional de Poetas del
+                Cupatitzio, a partir de las
+                <strong>9:00 horas</strong> (horario de México).<br />
+                Plataforma de transmisión: <strong>Facebook</strong>
+              </p>
+              <p class="virtual-platform">
+                Los videos se transmitirán a través del grupo de Facebook:
+              </p>
+              <a
+                href="https://www.facebook.com/share/g/1JSvw8dcov/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-facebook"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                  />
+                </svg>
+                Poetas del Cupatitzio - Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR Codes -->
+        <div class="qr-codes-grid reveal">
+          <div class="qr-card">
+            <h4>Grupo de Facebook</h4>
+            <p>Poetas del Cupatitzio</p>
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fg%2F1JSvw8dcov%2F"
+              alt="QR Facebook Poetas del Cupatitzio"
+              class="qr-img"
+            />
+            <a
+              href="https://www.facebook.com/share/g/1JSvw8dcov/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="qr-link"
+              >Abrir en Facebook</a
+            >
+          </div>
+          <div class="qr-card">
+            <h4>Página del Encuentro</h4>
+            <p>Programa completo en línea</p>
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fcarlosgonzalez7u7.github.io%2F11o.-Encuentro-Poetas-Web%2F"
+              alt="QR Página del Encuentro"
+              class="qr-img"
+            />
+            <a
+              href="https://carlosgonzalez7u7.github.io/11o.-Encuentro-Poetas-Web/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="qr-link"
+              >Visitar página</a
+            >
           </div>
         </div>
       </div>
@@ -703,13 +824,8 @@
               <div class="event-content">
                 <div class="event-icon">📚</div>
                 <div class="event-details">
-                  <h4>
-                    Presentación de Antología "Vuelo de la Palabra por la Paz"
-                  </h4>
-                  <p>
-                    Academia Nacional e Internacional de la Poesía de la SMGE -
-                    Estado de Michoacán
-                  </p>
+                  <h4>Presentación de Antología "Quinta Luna"</h4>
+                  <p>Presenta Maribel Arreola Rivas</p>
                 </div>
               </div>
             </div>
@@ -873,6 +989,7 @@
                 <div class="event-icon">🎵</div>
                 <div class="event-details">
                   <h4>Presentación Musical</h4>
+                  <p>Cantante: Nayel Montufar</p>
                 </div>
               </div>
             </div>
