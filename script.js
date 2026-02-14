@@ -9,7 +9,6 @@ const imageNameMap = {
   "Roger Caldeyro": "Rogeri Caldeyro Vazquez",
   Lugupe: "José Luis Gutierrez Peña",
   "Arturo Martínez": "Arturo Reyes Martínez",
-  "Rosario Herrera Guido": null, // No tiene imagen, usará avatar
 };
 
 const poets = [
@@ -2071,7 +2070,7 @@ async function generateProgramPDF() {
             {
               time: "11:20",
               title: 'Presentación de Antología "Quinta Luna"',
-              desc: "Presenta Maribel Arreola Rivas",
+              desc: "Presenta Maribel Arreola Rivas, Academia Nacional e Internacional de la Poesía de la SMGE en el estado de Michoacán",
               type: "presentacion",
             },
             {
