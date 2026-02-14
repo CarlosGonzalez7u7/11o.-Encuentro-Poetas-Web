@@ -415,6 +415,20 @@ function normalizeText(text) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+function findPoetMesa(poetName) {
+  const norm = normalizeText(poetName);
+  for (const dayData of mesasData) {
+    for (const mesa of dayData.mesas) {
+      for (const name of mesa.poets) {
+        if (normalizeText(name) === norm) {
+          return { mesa, day: dayData };
+        }
+      }
+    }
+  }
+  return null;
+}
+
 function getImageName(name) {
   // Check if there's a special mapping for this poet
   if (imageNameMap.hasOwnProperty(name)) {
@@ -592,6 +606,59 @@ function initBackToTop() {
   });
 }
 
+// ---- SHARE UTILITIES ----
+const SITE_URL =
+  "https://carlosgonzalez7u7.github.io/11o.-Encuentro-Poetas-Web/";
+
+function getPoetShareText(poetName, mesaInfo) {
+  if (mesaInfo) {
+    return `\u00a1${poetName} participa en el 11\u00ba Encuentro Internacional de Poetas del Cupatitzio! \ud83d\udcda\u2728\n\n\ud83d\udcd6 Mesa de Lectura ${mesaInfo.mesa.number}\n\ud83d\udcc5 ${mesaInfo.day.dayShort}\n\ud83d\udd50 ${mesaInfo.mesa.time}\n\ud83d\udccd Centro Cultural F\u00e1brica de San Pedro, Uruapan\n\n26, 27 y 28 de Febrero 2026\n`;
+  }
+  return `\u00a1${poetName} participa en el 11\u00ba Encuentro Internacional de Poetas del Cupatitzio! \ud83d\udcda\u2728\n\n\ud83d\udccd Centro Cultural F\u00e1brica de San Pedro, Uruapan\n26, 27 y 28 de Febrero 2026\n`;
+}
+
+function getMesaShareText(mesaNumber, dayLabel, time, poetNames) {
+  const poetList = poetNames.map((n) => `  \u2022 ${n}`).join("\n");
+  return `\ud83d\udcd6 Mesa de Lectura ${mesaNumber} - 11\u00ba Encuentro de Poetas del Cupatitzio \u2728\n\n\ud83d\udcc5 ${dayLabel}\n\ud83d\udd50 ${time}\n\n\u2728 Poetas participantes:\n${poetList}\n\n\ud83d\udccd Centro Cultural F\u00e1brica de San Pedro, Uruapan\n`;
+}
+
+function shareOnWhatsApp(text) {
+  const url = `https://wa.me/?text=${encodeURIComponent(text + "\n" + SITE_URL)}`;
+  window.open(url, "_blank");
+}
+
+function shareOnFacebook() {
+  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITE_URL)}`;
+  window.open(url, "_blank", "width=600,height=400");
+}
+
+function createShareButtons(whatsappText, size = "normal") {
+  const wrap = document.createElement("div");
+  wrap.className = `share-buttons ${size === "small" ? "share-buttons-sm" : ""}`;
+
+  const waBtn = document.createElement("button");
+  waBtn.className = "share-btn share-btn-wa";
+  waBtn.setAttribute("aria-label", "Compartir en WhatsApp");
+  waBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>${size === "small" ? "" : " WhatsApp"}`;
+  waBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    shareOnWhatsApp(whatsappText);
+  });
+
+  const fbBtn = document.createElement("button");
+  fbBtn.className = "share-btn share-btn-fb";
+  fbBtn.setAttribute("aria-label", "Compartir en Facebook");
+  fbBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>${size === "small" ? "" : " Facebook"}`;
+  fbBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    shareOnFacebook();
+  });
+
+  wrap.appendChild(waBtn);
+  wrap.appendChild(fbBtn);
+  return wrap;
+}
+
 // ---- MESAS DE LECTURA ----
 let currentDay = 1;
 let highlightedPoetName = null;
@@ -614,7 +681,7 @@ function findPoetMesa(poetName) {
   return null;
 }
 
-function renderMesaPoet(poet, highlight = false) {
+function renderMesaPoet(poet, highlight = false, mesaInfo = null) {
   const div = document.createElement("div");
   div.className = "mesa-poet" + (highlight ? " highlighted" : "");
 
@@ -631,12 +698,30 @@ function renderMesaPoet(poet, highlight = false) {
     }
   };
 
+  const infoWrap = document.createElement("div");
+  infoWrap.className = "mesa-poet-info";
+
   const name = document.createElement("span");
   name.className = "mesa-poet-name";
   name.textContent = poet.name;
 
+  infoWrap.appendChild(name);
+
+  // Add small share button for each poet in mesa
+  const shareText = getPoetShareText(poet.name, mesaInfo);
+  const shareBtn = document.createElement("button");
+  shareBtn.className = "share-btn-inline share-btn-wa";
+  shareBtn.setAttribute("aria-label", "Compartir en WhatsApp");
+  shareBtn.title = "Compartir en WhatsApp";
+  shareBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  shareBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    shareOnWhatsApp(shareText);
+  });
+  infoWrap.appendChild(shareBtn);
+
   div.appendChild(img);
-  div.appendChild(name);
+  div.appendChild(infoWrap);
   return div;
 }
 
@@ -670,18 +755,30 @@ function renderMesas(dayNumber) {
       </div>
       <div class="mesa-card-body">
         <div class="mesa-poets-grid" id="mesa-poets-${mesa.number}"></div>
+        <div class="mesa-share-bar" id="mesa-share-${mesa.number}"></div>
       </div>
     `;
 
     container.appendChild(card);
 
+    // Add share buttons to mesa card
+    const mesaShareText = getMesaShareText(
+      mesa.number,
+      dayData.dayLabel,
+      mesa.time,
+      mesa.poets,
+    );
+    const shareBar = card.querySelector(`#mesa-share-${mesa.number}`);
+    shareBar.appendChild(createShareButtons(mesaShareText));
+
+    const mesaInfoForPoets = { mesa, day: dayData };
     const poetsGrid = card.querySelector(`#mesa-poets-${mesa.number}`);
     mesa.poets.forEach((poetName) => {
       const shouldHighlight =
         highlightedPoetName &&
         normalizeText(poetName).includes(normalizeText(highlightedPoetName));
       poetsGrid.appendChild(
-        renderMesaPoet({ name: poetName }, shouldHighlight),
+        renderMesaPoet({ name: poetName }, shouldHighlight, mesaInfoForPoets),
       );
     });
   });
@@ -738,6 +835,10 @@ function initMesaSearch() {
         const first = matches[0];
         highlightedPoetName = first.poet.name;
 
+        const resultShareText = getPoetShareText(first.poet.name, {
+          mesa: first.mesa,
+          day: first.day,
+        });
         resultContainer.innerHTML = `
           <div class="mesa-result-card">
             <div class="result-name">${first.poet.name}</div>
@@ -746,6 +847,7 @@ function initMesaSearch() {
               <span class="result-badge">📅 ${first.day.dayShort}</span>
               <span class="result-badge">🕐 ${first.mesa.time}</span>
             </div>
+            <div class="result-share" id="resultShareBtns"></div>
             ${
               matches.length > 1
                 ? `<div style="margin-top:0.75rem;font-size:0.8rem;opacity:0.8">y ${
@@ -755,6 +857,11 @@ function initMesaSearch() {
             }
           </div>
         `;
+        // Add share buttons to result card
+        const resultShareWrap =
+          resultContainer.querySelector("#resultShareBtns");
+        if (resultShareWrap)
+          resultShareWrap.appendChild(createShareButtons(resultShareText));
         resultContainer.style.display = "block";
 
         // Switch to matching day and re-render
@@ -814,9 +921,15 @@ function createPoetCard(poet, index) {
   name.className = "poet-name";
   name.textContent = poet.name;
 
+  // Find poet's mesa info for the share text
+  const mesaInfo = findPoetMesa(poet.name);
+  const shareText = getPoetShareText(poet.name, mesaInfo);
+  const shareWrap = createShareButtons(shareText, "small");
+
   card.appendChild(img);
   card.appendChild(number);
   card.appendChild(name);
+  card.appendChild(shareWrap);
 
   return card;
 }

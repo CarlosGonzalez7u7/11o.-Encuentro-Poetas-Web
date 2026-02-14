@@ -1298,6 +1298,108 @@ button {
   opacity: 0.6;
 }
 
+/* ---- 12b. Share Buttons ---- */
+.share-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.share-buttons-sm {
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+}
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 2rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    opacity 0.2s;
+  color: #fff;
+  line-height: 1;
+}
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.share-btn:active {
+  transform: scale(0.96);
+}
+.share-btn-wa {
+  background: #25d366;
+}
+.share-btn-fb {
+  background: #1877f2;
+}
+.share-buttons-sm .share-btn {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.7rem;
+}
+.share-buttons-sm .share-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Inline share icon (next to poet name in mesa) */
+.share-btn-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #25d366;
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  flex-shrink: 0;
+  margin-left: 0.25rem;
+}
+.share-btn-inline:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.4);
+}
+
+/* mesa poet info layout */
+.mesa-poet-info {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  flex: 1;
+}
+.mesa-poet-info .mesa-poet-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* mesa share bar */
+.mesa-share-bar {
+  padding: 0.6rem 0 0;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* result share */
+.result-share {
+  margin-top: 0.75rem;
+}
+
 /* ---- 13. Back to Top ---- */
 .back-to-top {
   position: fixed;
@@ -2726,6 +2828,10 @@ button {
 [data-theme="dark"] .mesa-poet:hover {
   background: var(--bg-alt);
   border-color: var(--border);
+}
+
+[data-theme="dark"] .mesa-share-bar {
+  border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .poet-card {
