@@ -438,12 +438,37 @@ function getImageName(name) {
   return name;
 }
 
+// Poets that only have .png (no .jpg)
+const pngOnlyPoets = new Set([
+  "Adolfo Vargas Murguia",
+  "Adriana Lizbeth Rodriguez Lino",
+  "Andrea Murillo Heredia",
+  "Claudia Santillán Velázquez",
+  "Denys Juárez Laina",
+  "Evangelina Hernández Carbajal",
+  "Fátima Ruiz Sotelo",
+  "Gertrudis Hernández López",
+  "Guadalupe Zavala Guillén",
+  "Gustavo Adolfo Vargas Núñez",
+  "Javier García Barrera",
+  "Jennifer Farias Bustos",
+  "José Iván Ceja Durán",
+  "Josué Fernando Morales Gómez",
+  "Juan Contreras Hernández",
+  "Leonel Trujillo Anguiano",
+  "Rubén Falcón Márquez",
+  "Victoria Martinez Barrón",
+  "Xitlali Becerra Pedraza",
+  "Yuritskiri Campos Anguiano",
+]);
+
 function getPoetImageSrc(name) {
   const imageName = getImageName(name);
   if (!imageName) {
     return getAvatarSrc(name);
   }
-  return `img/${imageName}.jpg`;
+  const ext = pngOnlyPoets.has(name) ? "png" : "jpg";
+  return `img/${imageName}.${ext}`;
 }
 
 function getFallbackImageSrc(name) {
@@ -451,7 +476,9 @@ function getFallbackImageSrc(name) {
   if (!imageName) {
     return getAvatarSrc(name);
   }
-  return `img/${imageName}.png`;
+  // If primary is jpg, fallback is png and vice versa
+  const ext = pngOnlyPoets.has(name) ? "jpg" : "png";
+  return `img/${imageName}.${ext}`;
 }
 
 function getAvatarSrc(name) {
@@ -475,7 +502,7 @@ function initCountdown() {
 
     if (diff <= 0) {
       container.innerHTML =
-        '<div class="countdown-ended">🎉 ¡El Encuentro ha comenzado!</div>';
+        '<div class="countdown-ended">✨ ¡El 11º Encuentro ha finalizado! &mdash; Gracias por ser parte ✨</div>';
       return;
     }
 
@@ -2721,13 +2748,396 @@ function initEquipoThanks() {
   });
 }
 
+// ---- AGRADECIMIENTOS GRID & CERTIFICATE GENERATOR ----
+function initAgradecimientos() {
+  const grid = document.getElementById("agradecimientosGrid");
+  if (!grid) return;
+
+  poets.forEach((poet) => {
+    const card = document.createElement("div");
+    card.className = "agradecimiento-card reveal";
+
+    const imgWrap = document.createElement("div");
+    imgWrap.className = "agradecimiento-img-wrap";
+
+    const img = document.createElement("img");
+    img.alt = poet.name;
+    img.loading = "lazy";
+
+    // Load image with fallback chain: jpg -> png -> avatar
+    const sources = [
+      getPoetImageSrc(poet.name),
+      getFallbackImageSrc(poet.name),
+      getAvatarSrc(poet.name),
+    ];
+    let srcIdx = 0;
+    function tryLoad() {
+      img.src = sources[srcIdx];
+    }
+    img.onerror = function () {
+      srcIdx++;
+      if (srcIdx < sources.length) tryLoad();
+    };
+    tryLoad();
+
+    imgWrap.appendChild(img);
+
+    const nameEl = document.createElement("div");
+    nameEl.className = "agradecimiento-name";
+    nameEl.textContent = poet.name;
+
+    const numEl = document.createElement("div");
+    numEl.className = "agradecimiento-number";
+    numEl.textContent = "Poeta #" + poet.number;
+
+    const btn = document.createElement("button");
+    btn.className = "btn-descargar-agradecimiento";
+    btn.innerHTML =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar Agradecimiento';
+    btn.addEventListener("click", function () {
+      generateCertificate(poet.name, img.src, btn);
+    });
+
+    card.appendChild(imgWrap);
+    card.appendChild(nameEl);
+    card.appendChild(numEl);
+    card.appendChild(btn);
+    grid.appendChild(card);
+  });
+}
+
+function generateCertificate(poetName, poetImgSrc, btnEl) {
+  if (btnEl) {
+    btnEl.classList.add("generating");
+    btnEl.innerHTML =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Generando...';
+  }
+
+  const W = 1200;
+  const H = 850;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  // -- Background --
+  const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+  bgGrad.addColorStop(0, "#faf8f5");
+  bgGrad.addColorStop(0.5, "#f3efe9");
+  bgGrad.addColorStop(1, "#faf8f5");
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // -- Ornamental border --
+  ctx.strokeStyle = "#d4a574";
+  ctx.lineWidth = 3;
+  roundRect(ctx, 20, 20, W - 40, H - 40, 20);
+  ctx.stroke();
+
+  ctx.strokeStyle = "#8b6f47";
+  ctx.lineWidth = 1;
+  roundRect(ctx, 30, 30, W - 60, H - 60, 16);
+  ctx.stroke();
+
+  // -- Corner ornaments --
+  drawCornerOrnaments(ctx, W, H);
+
+  // -- Top accent line --
+  const accentGrad = ctx.createLinearGradient(200, 0, W - 200, 0);
+  accentGrad.addColorStop(0, "transparent");
+  accentGrad.addColorStop(0.3, "#d4a574");
+  accentGrad.addColorStop(0.5, "#8b6f47");
+  accentGrad.addColorStop(0.7, "#d4a574");
+  accentGrad.addColorStop(1, "transparent");
+  ctx.strokeStyle = accentGrad;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(200, 60);
+  ctx.lineTo(W - 200, 60);
+  ctx.stroke();
+
+  // -- Bottom accent line --
+  ctx.beginPath();
+  ctx.moveTo(200, H - 60);
+  ctx.lineTo(W - 200, H - 60);
+  ctx.stroke();
+
+  // Load logo and poet image in parallel, then draw text
+  const logo = new Image();
+  logo.crossOrigin = "anonymous";
+  const poetImg = new Image();
+  poetImg.crossOrigin = "anonymous";
+
+  let loadedCount = 0;
+  function onAssetLoaded() {
+    loadedCount++;
+    if (loadedCount < 2) return;
+    finishCertificate(ctx, canvas, W, H, logo, poetImg, poetName, btnEl);
+  }
+
+  logo.onload = onAssetLoaded;
+  logo.onerror = onAssetLoaded;
+  poetImg.onload = onAssetLoaded;
+  poetImg.onerror = function () {
+    // If poet image fails, use avatar URL
+    const avatar = new Image();
+    avatar.crossOrigin = "anonymous";
+    avatar.onload = function () {
+      poetImg._loaded = true;
+      poetImg._replacement = avatar;
+      onAssetLoaded();
+    };
+    avatar.onerror = onAssetLoaded;
+    avatar.src = getAvatarSrc(poetName);
+  };
+
+  logo.src = "img/PoetasCupa.png";
+  poetImg.src = poetImgSrc;
+}
+
+function finishCertificate(ctx, canvas, W, H, logo, poetImg, poetName, btnEl) {
+  const actualPoetImg = poetImg._replacement || poetImg;
+
+  // -- Logo centered at top --
+  if (logo.complete && logo.naturalWidth) {
+    const logoH = 70;
+    const logoW = (logo.naturalWidth / logo.naturalHeight) * logoH;
+    ctx.drawImage(logo, (W - logoW) / 2, 75, logoW, logoH);
+  }
+
+  // -- Title --
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#2c1810";
+  ctx.font = "bold 32px 'Playfair Display', Georgia, serif";
+  ctx.fillText("AGRADECIMIENTO", W / 2, 185);
+
+  // -- Decorative line below title --
+  const lineGrad = ctx.createLinearGradient(W / 2 - 120, 0, W / 2 + 120, 0);
+  lineGrad.addColorStop(0, "transparent");
+  lineGrad.addColorStop(0.5, "#d4a574");
+  lineGrad.addColorStop(1, "transparent");
+  ctx.strokeStyle = lineGrad;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - 120, 198);
+  ctx.lineTo(W / 2 + 120, 198);
+  ctx.stroke();
+
+  // -- Star ornament --
+  ctx.fillStyle = "#d4a574";
+  ctx.font = "18px serif";
+  ctx.fillText("✦", W / 2, 218);
+
+  // -- Subtitle --
+  ctx.fillStyle = "#8b6f47";
+  ctx.font = "italic 18px 'Playfair Display', Georgia, serif";
+  ctx.fillText(
+    "11º Encuentro Internacional Poetas del Cupatitzio 2026",
+    W / 2,
+    248,
+  );
+
+  // -- Poet photo (circular, centered) --
+  const photoSize = 120;
+  const photoX = W / 2;
+  const photoY = 330;
+
+  if (actualPoetImg.complete && actualPoetImg.naturalWidth) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(photoX, photoY, photoSize / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(
+      actualPoetImg,
+      photoX - photoSize / 2,
+      photoY - photoSize / 2,
+      photoSize,
+      photoSize,
+    );
+    ctx.restore();
+
+    // Photo border
+    ctx.beginPath();
+    ctx.arc(photoX, photoY, photoSize / 2 + 3, 0, Math.PI * 2);
+    ctx.strokeStyle = "#d4a574";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Outer glow ring
+    ctx.beginPath();
+    ctx.arc(photoX, photoY, photoSize / 2 + 7, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(212, 165, 116, 0.3)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // -- "Se otorga a:" --
+  ctx.fillStyle = "#6b5d52";
+  ctx.font = "16px 'Inter', sans-serif";
+  ctx.fillText("Se otorga el presente agradecimiento a:", W / 2, 420);
+
+  // -- Poet Name --
+  ctx.fillStyle = "#2c1810";
+  ctx.font = "bold 36px 'Playfair Display', Georgia, serif";
+
+  // Handle long names
+  let nameSize = 36;
+  ctx.font = "bold " + nameSize + "px 'Playfair Display', Georgia, serif";
+  while (ctx.measureText(poetName).width > W - 200 && nameSize > 20) {
+    nameSize -= 2;
+    ctx.font = "bold " + nameSize + "px 'Playfair Display', Georgia, serif";
+  }
+  ctx.fillText(poetName, W / 2, 465);
+
+  // -- Underline below name --
+  const nameW = Math.min(ctx.measureText(poetName).width + 40, W - 200);
+  ctx.strokeStyle = "#d4a574";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - nameW / 2, 478);
+  ctx.lineTo(W / 2 + nameW / 2, 478);
+  ctx.stroke();
+
+  // -- Body text --
+  ctx.fillStyle = "#4a3f38";
+  ctx.font = "16px 'Inter', sans-serif";
+  const bodyLines = wrapText(
+    ctx,
+    "Por haber participado de manera presencial y/o virtual en el 11º Encuentro Internacional de Poetas del Cupatitzio, celebrado los días 26, 27 y 28 de Febrero de 2026, en el Centro Cultural Fábrica de San Pedro, Uruapan, Michoacán, México.",
+    W - 200,
+  );
+  let bodyY = 515;
+  bodyLines.forEach(function (line) {
+    ctx.fillText(line, W / 2, bodyY);
+    bodyY += 24;
+  });
+
+  // -- Gratitude message --
+  ctx.fillStyle = "#8b6f47";
+  ctx.font = "italic 17px 'Playfair Display', Georgia, serif";
+  ctx.fillText(
+    '"La poesía es el eco de la melodía del universo en el corazón de los humanos"',
+    W / 2,
+    bodyY + 20,
+  );
+
+  // -- Star ornaments --
+  ctx.fillStyle = "#d4a574";
+  ctx.font = "14px serif";
+  ctx.fillText("✦   ✦   ✦", W / 2, bodyY + 50);
+
+  // -- Date --
+  ctx.fillStyle = "#6b5d52";
+  ctx.font = "15px 'Inter', sans-serif";
+  ctx.fillText("Uruapan, Michoacán — 1 de Marzo de 2026", W / 2, H - 110);
+
+  // -- Organizer line --
+  ctx.strokeStyle = "#d4a574";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - 100, H - 85);
+  ctx.lineTo(W / 2 + 100, H - 85);
+  ctx.stroke();
+
+  ctx.fillStyle = "#2c1810";
+  ctx.font = "13px 'Inter', sans-serif";
+  ctx.fillText("Comité Organizador", W / 2, H - 70);
+
+  // -- Download --
+  try {
+    const link = document.createElement("a");
+    link.download = "Agradecimiento - " + poetName + ".png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  } catch (e) {
+    // If toDataURL fails due to CORS, try without poet image
+    console.warn("Certificate download error, retrying without photo:", e);
+  }
+
+  // Reset button
+  if (btnEl) {
+    btnEl.classList.remove("generating");
+    btnEl.innerHTML =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar Agradecimiento';
+  }
+}
+
+// -- Helper: rounded rectangle --
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+// -- Helper: draw corner ornaments --
+function drawCornerOrnaments(ctx, W, H) {
+  const size = 35;
+  const offset = 38;
+  ctx.strokeStyle = "#d4a574";
+  ctx.lineWidth = 2;
+
+  // Top-left
+  ctx.beginPath();
+  ctx.moveTo(offset, offset + size);
+  ctx.lineTo(offset, offset);
+  ctx.lineTo(offset + size, offset);
+  ctx.stroke();
+
+  // Top-right
+  ctx.beginPath();
+  ctx.moveTo(W - offset - size, offset);
+  ctx.lineTo(W - offset, offset);
+  ctx.lineTo(W - offset, offset + size);
+  ctx.stroke();
+
+  // Bottom-left
+  ctx.beginPath();
+  ctx.moveTo(offset, H - offset - size);
+  ctx.lineTo(offset, H - offset);
+  ctx.lineTo(offset + size, H - offset);
+  ctx.stroke();
+
+  // Bottom-right
+  ctx.beginPath();
+  ctx.moveTo(W - offset - size, H - offset);
+  ctx.lineTo(W - offset, H - offset);
+  ctx.lineTo(W - offset, H - offset - size);
+  ctx.stroke();
+}
+
+// -- Helper: word wrap --
+function wrapText(ctx, text, maxWidth) {
+  var words = text.split(" ");
+  var lines = [];
+  var currentLine = words[0];
+  for (var i = 1; i < words.length; i++) {
+    var testLine = currentLine + " " + words[i];
+    if (ctx.measureText(testLine).width > maxWidth) {
+      lines.push(currentLine);
+      currentLine = words[i];
+    } else {
+      currentLine = testLine;
+    }
+  }
+  lines.push(currentLine);
+  return lines;
+}
+
 // ---- INITIALIZE EVERYTHING ----
 document.addEventListener("DOMContentLoaded", () => {
   initDarkMode();
   initCountdown();
   initParticles();
   initNavigation();
-  initScrollReveal();
   initBackToTop();
   initMesaTabs();
   initMesaSearch();
@@ -2736,4 +3146,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initProgramaTabs();
   initPDFDownload();
   initEquipoThanks();
+  initAgradecimientos();
+  // initScrollReveal MUST run after dynamic elements are added to the DOM
+  initScrollReveal();
 });

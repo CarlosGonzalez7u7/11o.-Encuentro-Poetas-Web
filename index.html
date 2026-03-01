@@ -20,12 +20,8 @@
           <img src="img/PoetasCupa.png" alt="Logo" class="nav-logo" />
         </a>
         <div class="nav-links" id="navLinks">
-          <a href="#inicio" class="nav-link">Inicio</a>
-          <a href="#virtual" class="nav-link">Virtual</a>
-          <a href="#programa" class="nav-link">Programa</a>
-          <a href="#mesas" class="nav-link">Mesas</a>
-          <a href="#antologia" class="nav-link">Antología</a>
-          <a href="#equipo" class="nav-link">Equipo</a>
+          <a href="#virtual" class="nav-link">Video</a>
+          <a href="#agradecimientos" class="nav-link">Agradecimientos</a>
         </div>
         <button
           class="dark-mode-toggle"
@@ -69,7 +65,7 @@
       </div>
     </nav>
 
-    <section class="hero" id="inicio">
+    <section class="hero" id="inicio" style="display: none">
       <div class="hero-bg-elements">
         <div class="floating-quote fq-1">&ldquo;</div>
         <div class="floating-quote fq-2">&rdquo;</div>
@@ -145,7 +141,7 @@
     </section>
 
     <!-- ========== INFO BANNER ========== -->
-    <section class="info-banner">
+    <section class="info-banner" style="display: none">
       <div class="container">
         <div class="info-grid">
           <div class="info-item reveal">
@@ -180,54 +176,150 @@
       </div>
     </section>
 
-    <!-- ========== TRANSMISIÓN VIRTUAL ========== -->
-    <section class="section virtual-section" id="virtual">
+    <!-- ========== VIDEO DEL ENCUENTRO & CIERRE ========== -->
+    <section class="section video-showcase-section" id="virtual">
       <div class="container">
-        <h2 class="section-title reveal">Transmisión Virtual</h2>
-        <p class="section-subtitle reveal">
-          Domingo 1 de Marzo, 2026 &mdash; 9:00 hrs (Horario de México)
-        </p>
+        <!-- Encabezado cinematográfico -->
+        <div class="video-header reveal">
+          <img
+            src="img/PoetasCupa.png"
+            alt="Logo Poetas del Cupatitzio"
+            class="video-header-logo"
+          />
+          <div class="video-header-badge">
+            <span class="badge-pulse"></span>
+            Evento Finalizado
+          </div>
+          <h2 class="section-title video-title">Participación Virtual</h2>
+          <p class="section-subtitle video-subtitle">
+            11º Encuentro Internacional Poetas del Cupatitzio 2026
+          </p>
+          <div class="video-divider">
+            <span class="divider-star">&#10022;</span>
+          </div>
+        </div>
 
-        <div class="virtual-card reveal">
-          <div class="virtual-info">
-            <div class="virtual-icon">📺</div>
-            <div class="virtual-details">
-              <h3>Transmisión de Videos del Encuentro</h3>
-              <p>
-                El domingo 1 de marzo se realizará la transmisión de los videos
-                de los participantes via virtual que no pudieron asistir de
-                manera presencial al 11º Encuentro Internacional de Poetas del
-                Cupatitzio, a partir de las
-                <strong>9:00 horas</strong> (horario de México).<br />
-                Plataforma de transmisión: <strong>Facebook</strong>
-              </p>
-              <p class="virtual-platform">
-                Los videos se transmitirán a través del grupo de Facebook:
-              </p>
-              <a
-                href="https://www.facebook.com/share/g/1JSvw8dcov/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-facebook"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                  />
-                </svg>
-                Poetas del Cupatitzio - Facebook
-              </a>
+        <!-- Video Player Cinematográfico -->
+        <div class="video-theater reveal">
+          <div class="video-theater-glow"></div>
+          <div class="video-frame">
+            <div class="video-frame-border"></div>
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/OiFP_FDaif4?si=kQJvDdWRm7ND1SGt&rel=0&modestbranding=1"
+                title="11º Encuentro Internacional Poetas del Cupatitzio - Participación Virtual"
+                frameborder="0"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                  web-share;
+                "
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
+          <div class="video-caption">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            Videos de los participantes vía virtual
+          </div>
+        </div>
+
+        <!-- Mensaje de cierre del evento -->
+        <div class="event-closure reveal">
+          <div class="closure-ornament top">
+            <span>&#10022;</span><span>&#10022;</span><span>&#10022;</span>
+          </div>
+          <div class="closure-content">
+            <h3 class="closure-title">
+              &ldquo;Donde hay poesía, hay esperanza&rdquo;
+            </h3>
+            <p class="closure-text">
+              El
+              <strong>11º Encuentro Internacional Poetas del Cupatitzio</strong>
+              ha llegado a su fin. Agradecemos profundamente a cada poeta, cada
+              voz y cada verso que hizo posible este encuentro. La poesía nos
+              unió durante tres días memorables y este video reúne las
+              participaciones de quienes nos acompañaron de manera virtual.
+            </p>
+            <p class="closure-text">
+              Gracias por ser parte de esta celebración de la palabra. ¡Nos
+              vemos en el próximo encuentro!
+            </p>
+            <div class="closure-signature">
+              <span class="signature-line"></span>
+              <span class="signature-text"
+                >Uruapan, Michoacán &middot; Febrero 2026</span
+              >
+              <span class="signature-line"></span>
+            </div>
+          </div>
+          <div class="closure-ornament bottom">
+            <span>&#10022;</span><span>&#10022;</span><span>&#10022;</span>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="video-actions reveal">
+          <a
+            href="https://youtu.be/OiFP_FDaif4"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-youtube"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+              />
+            </svg>
+            Ver en YouTube
+          </a>
+          <a
+            href="https://www.facebook.com/share/g/1JSvw8dcov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-facebook"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              />
+            </svg>
+            Grupo de Facebook
+          </a>
         </div>
 
         <!-- QR Codes -->
         <div class="qr-codes-grid reveal">
+          <div class="qr-card">
+            <h4>Video en YouTube</h4>
+            <p>Participación virtual del encuentro</p>
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fyoutu.be%2FOiFP_FDaif4"
+              alt="QR Video YouTube"
+              class="qr-img"
+            />
+            <a
+              href="https://youtu.be/OiFP_FDaif4"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="qr-link"
+              >Ver en YouTube</a
+            >
+          </div>
           <div class="qr-card">
             <h4>Grupo de Facebook</h4>
             <p>Poetas del Cupatitzio</p>
@@ -244,28 +336,52 @@
               >Abrir en Facebook</a
             >
           </div>
-          <div class="qr-card">
-            <h4>Página del Encuentro</h4>
-            <p>Programa completo en línea</p>
-            <img
-              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fcarlosgonzalez7u7.github.io%2F11o.-Encuentro-Poetas-Web%2F"
-              alt="QR Página del Encuentro"
-              class="qr-img"
-            />
-            <a
-              href="https://carlosgonzalez7u7.github.io/11o.-Encuentro-Poetas-Web/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="qr-link"
-              >Visitar página</a
-            >
-          </div>
         </div>
       </div>
     </section>
 
+    <!-- ========== AGRADECIMIENTOS A PARTICIPANTES ========== -->
+    <section class="section agradecimientos-section" id="agradecimientos">
+      <div class="container">
+        <div class="agradecimientos-header reveal">
+          <div class="agradecimientos-badge">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+              />
+            </svg>
+            Gracias a Todos
+          </div>
+          <h2 class="section-title agradecimientos-title">
+            Agradecimiento a Nuestros Poetas
+          </h2>
+          <p class="section-subtitle agradecimientos-subtitle">
+            A cada voz que hizo posible el 11º Encuentro Internacional Poetas
+            del Cupatitzio 2026.<br />
+            Descarga tu reconocimiento de participación.
+          </p>
+          <div class="video-divider">
+            <span class="divider-star">&#10022;</span>
+          </div>
+        </div>
+
+        <div id="agradecimientosGrid" class="agradecimientos-grid"></div>
+      </div>
+    </section>
+
     <!-- ========== PROGRAMA / SCHEDULE ========== -->
-    <section class="section programa-section" id="programa">
+    <section
+      class="section programa-section"
+      id="programa"
+      style="display: none"
+    >
       <div class="container">
         <h2 class="section-title reveal">Programa del Encuentro</h2>
         <p class="section-subtitle reveal">
@@ -1028,7 +1144,7 @@
     </section>
 
     <!-- ========== MESAS DE LECTURA ========== -->
-    <section class="section mesas-section" id="mesas">
+    <section class="section mesas-section" id="mesas" style="display: none">
       <div class="container">
         <h2 class="section-title reveal">Mesas de Lectura</h2>
         <p class="section-subtitle reveal">
@@ -1090,7 +1206,11 @@
     </section>
 
     <!-- ========== ANTOLOGÍA ========== -->
-    <section class="section antologia-section" id="antologia">
+    <section
+      class="section antologia-section"
+      id="antologia"
+      style="display: none"
+    >
       <div class="container">
         <h2 class="section-title reveal">Antología 2025</h2>
         <p class="section-subtitle reveal">
@@ -1133,7 +1253,7 @@
     </section>
 
     <!-- ========== EQUIPO ORGANIZADOR ========== -->
-    <section class="section equipo-section" id="equipo">
+    <section class="section equipo-section" id="equipo" style="display: none">
       <div class="container">
         <h2 class="section-title reveal">Equipo Organizador</h2>
         <p class="section-subtitle reveal">
